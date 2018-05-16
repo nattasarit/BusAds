@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import * as konva from "konva";
 const Konva: any = konva;
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
 
 @Component({
   selector: 'app-canvas',
@@ -10,8 +11,9 @@ const Konva: any = konva;
   styleUrls: ['./canvas.component.css']
 })
 export class CanvasComponent implements OnInit {
-
-  constructor() { }
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  constructor(private afStorage: AngularFireStorage) { }
 
   ngOnInit() {
 
@@ -23,7 +25,7 @@ export class CanvasComponent implements OnInit {
 
   private ngAfterViewInit() {
     this._gStage = new Konva.Stage({
-      container: 'container',
+      container: 'divCanvasContainer',
       width: this._gWidthWindow,
       height: this._gHeightWindow
     });
@@ -55,7 +57,16 @@ export class CanvasComponent implements OnInit {
 
   }
 
-  public upload(event) {
+  upload(event) {
+    console.log("############# upload=",event);
+    const id = Math.random().toString(36).substring(2);
+    this.ref = this.afStorage.ref(id);
+    console.log("############# this.ref=",this.ref);
+    this.task = this.ref.put(event.target.files[0]);
+    
+  }
+
+  public upload2(event) {
     console.log(event);
     const elem = event.target;
     if (elem.files.length > 0) {
@@ -99,6 +110,10 @@ export class CanvasComponent implements OnInit {
 
   public submit() {
     this._gStage.add(this._gLayer);
+  }
+
+  public connectFirebase(){
+   
   }
 
 }

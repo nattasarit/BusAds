@@ -1,6 +1,7 @@
-<p>
-  canvas works!
-</p>
-<input type="file" value="upload" placeholder="Upload file..." accept=".jpg" (change)=upload($event)>
-<button type="button" (click)="submit()">Upload</button>
-<div id="container"l>Hello World!</div>
+<div class="page-splash">
+  <div class="div-container-upload">
+    <input type="file" value="upload" placeholder="Upload file..." accept=".jpg" (change)=upload($event) multiple>
+    <button type="button" (click)="submit()">Upload</button>
+  </div>
+  <div id="divCanvasContainer" class="div-canvas-container"></div>
+</div>
