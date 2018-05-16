@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import * as konva from "konva";
-const Konva : any = konva;
+const Konva: any = konva;
 
 @Component({
   selector: 'app-canvas',
@@ -14,19 +14,20 @@ export class CanvasComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
-  }
 
-  ngAfterViewInit(){
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    var stage = new Konva.Stage({
+  }
+  public _gLayer = new Konva.Layer();
+  public _gWidthWindow = window.innerWidth;
+  public _gHeightWindow = window.innerHeight;
+  public _gStage = null;
+
+  private ngAfterViewInit() {
+    this._gStage = new Konva.Stage({
       container: 'container',
-      width: width,
-      height: height
+      width: this._gWidthWindow,
+      height: this._gHeightWindow
     });
-    var layer = new Konva.Layer();
-    var rect = new Konva.Rect({
+    let rect = new Konva.Rect({
       x: 50,
       y: 50,
       width: 100,
@@ -36,9 +37,9 @@ export class CanvasComponent implements OnInit {
       strokeWidth: 4,
       draggable: true
     });
-    var circle = new Konva.Circle({
-      x: stage.getWidth() / 2,
-      y: stage.getHeight() / 2,
+    let circle = new Konva.Circle({
+      x: this._gStage.getWidth() / 2,
+      y: this._gStage.getHeight() / 2,
       radius: 70,
       fill: 'red',
       stroke: 'black',
@@ -47,10 +48,57 @@ export class CanvasComponent implements OnInit {
 
     // add the shape to the layer
     //layer.add(circle);
+
     // add the shape to the layer
-    layer.add(rect);
-    // add the layer to the stage
-    stage.add(layer);
+    this._gLayer.add(rect);
+
+
+  }
+
+  public upload(event) {
+    console.log(event);
+    const elem = event.target;
+    if (elem.files.length > 0) {
+      console.log(elem.files[0]);
+      let reader = new FileReader();
+      // it's onload event and you forgot (parameters)
+      
+      reader.onload = (e)=> {
+        let image = document.createElement("img");
+        // the result image data
+        image.src = e.target["result"];
+        const kImage = new Konva.Image({ 
+          image: image,
+          width: 100,
+          height: 100,
+          x: 10,
+          y: 10
+        });
+        
+        this._gLayer.add(kImage);
+        
+      }
+      
+      // you have to declare the file loading
+      reader.readAsDataURL(elem.files[0]);
+      let circle = new Konva.Circle({
+        x: 100,
+        y: 100,
+        radius: 30,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 4
+      });
+
+      // add the shape to the layer
+      this._gLayer.add(circle);
+
+    }
+    // ...
+  }
+
+  public submit() {
+    this._gStage.add(this._gLayer);
   }
 
 }
