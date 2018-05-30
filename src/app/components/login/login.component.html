@@ -1,9 +1,18 @@
 <div class="page-splash">
-  <!--<h3 class="logo">Automatic Bus Advertising System</h3>-->
-  <h3 class="logo">Test Angular</h3>
+  <h3 class="logo">Automatic Bus Advertising System</h3>
+  <!--<h3 class="logo">Test Angular</h3>-->
   <div>
-    <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" routerLink="/canvas">
-      <i class="material-icons">account_circle</i> Sign in with Google
+    <div class="example-container">
+      <mat-form-field style="display: inline;">
+        <input matInput placeholder="Username">
+      </mat-form-field>
+
+      <mat-form-field style="display: inline;">
+        <input matInput placeholder="Password">
+      </mat-form-field>
+    </div>
+    <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="login()">
+      <i class="material-icons">account_circle</i> Sign in
       <span class="mdl-button__ripple-container">
         <span class="mdl-ripple is-animating" style="width: 440.432px; height: 440.432px; transform: translate(-50%, -50%) translate(190px, 31px);">
         </span>

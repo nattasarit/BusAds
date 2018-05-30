@@ -6,6 +6,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { DbconnectorService } from './services/dbconnector.service';
+import { AppService } from './services/app.service';
+import { HttpModule } from '@angular/http';
 
 const APP_ROUTES: Routes = [
   {
@@ -26,6 +33,7 @@ const APP_ROUTES: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     [RouterModule.forRoot(APP_ROUTES)],
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyB1vDNAIH-fNnhgEW3oREtL-eGdW5PGQHw",
@@ -35,10 +43,14 @@ const APP_ROUTES: Routes = [
       storageBucket: "busads-ab252.appspot.com",
       messagingSenderId: "485053449120"
     }),
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    HttpModule
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [DbconnectorService, AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
