@@ -13,6 +13,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { DbconnectorService } from './services/dbconnector.service';
 import { AppService } from './services/app.service';
 import { HttpModule } from '@angular/http';
+import { MatCardModule } from '@angular/material/card';
 
 const APP_ROUTES: Routes = [
   {
@@ -47,7 +48,8 @@ const APP_ROUTES: Routes = [
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-    HttpModule
+    HttpModule,
+    MatCardModule
   ],
   exports: [RouterModule],
   providers: [DbconnectorService, AppService],

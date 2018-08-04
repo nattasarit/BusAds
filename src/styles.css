@@ -21,7 +21,6 @@ body{
     background-color: #0288D1;
     background: radial-gradient(circle, #039BE5, #01579b);
     z-index: 10000;
-    display: flex;
     justify-content: center;
     align-items: center;
     color: white;
@@ -32,13 +31,3 @@ body{
     color: white;
 }
 
-.div-container-upload{
-    margin-top: 50px;
-}
-
-.div-canvas-container{
-    background-color: white;
-    width: 1000px;
-    height: 500px;
-    margin-top: 20px;
-}

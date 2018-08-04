@@ -1,0 +1,31 @@
+.div-container-upload{
+    margin-top: 50px;
+}
+
+.div-main-container{
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.div-left-menu{
+    padding-left: 20px;
+    width: 350px;
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+.div-left-menu .mat-card{
+    margin-bottom: 5px;
+}
+
+.div-canvas-container{
+    padding-left: 15px;
+    width: 1000px;
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
