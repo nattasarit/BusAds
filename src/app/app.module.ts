@@ -12,8 +12,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { DbconnectorService } from './services/dbconnector.service';
 import { AppService } from './services/app.service';
+import { DrawService } from './services/draw.service';
 import { HttpModule } from '@angular/http';
 import { MatCardModule } from '@angular/material/card';
+import { UICarouselModule } from 'ui-carousel';
+import { UploadSelectorComponent } from './core/upload-selector/upload-selector.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 const APP_ROUTES: Routes = [
   {
@@ -30,7 +37,8 @@ const APP_ROUTES: Routes = [
   declarations: [
     AppComponent,
     CanvasComponent,
-    LoginComponent
+    LoginComponent,
+    UploadSelectorComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,10 +57,16 @@ const APP_ROUTES: Routes = [
     MatInputModule,
     MatFormFieldModule,
     HttpModule,
-    MatCardModule
+    MatCardModule,
+    UICarouselModule,
+    MatDialogModule,
+    MatExpansionModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   exports: [RouterModule],
-  providers: [DbconnectorService, AppService],
+  providers: [DbconnectorService, AppService, DrawService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

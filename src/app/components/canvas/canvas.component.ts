@@ -1,155 +1,278 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
-import * as konva from "konva";
-const Konva: any = konva;
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+// import * as fabric from '../../../../node_modules/fabric';
+// const Fabric: any = fabric;
+//import { Stage, Shape } from '@createjs/easeljs';
 import { AppService, ResponseType } from '../../services/app.service';
+import { DrawService, HWXY } from '../../services/draw.service';
+import { forEach } from '@angular/router/src/utils/collection';
+import { MatSelect } from '@angular/material/select';
+import { ContextModel } from '../../model/context.model';
+import * as createjs from 'createjs-module';
 
-
+export interface Food {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
+
 export class CanvasComponent implements OnInit {
-  ref: AngularFireStorageReference;
-  task: AngularFireUploadTask;
-  constructor(private afStorage: AngularFireStorage, public appService: AppService) { }
+  constructor(public appService: AppService, public drawService: DrawService) { }
+
+  @ViewChild('selectorBusRoute') selectorBusRoute: MatSelect;
+
+  panelOpenState = false;
+  routes: Food[] = [
+    { value: '1', viewValue: '21' },
+    { value: '2', viewValue: '188' },
+    { value: '3', viewValue: '75' }
+  ];
+
+
+  private mainStage = null;
+  private mainContext = null;
+  private containerFrame = null;
+  private containerLogo = null;
+  private containerProduct = null;
+  private shapeContainerFrame = null;
+  private shapeContainerLogo = null;
+  private shapeContainerProduct = null;
 
   ngOnInit() {
+    this.mainStage = new createjs.Stage("divCanvasContainer");
 
+    this.initBusAdsFrame();
+    this.mainStage.update();
   }
-  public _gLayer = new Konva.Layer();
-  public _gWidthWindow = window.innerWidth;
-  public _gHeightWindow = window.innerHeight;
-  public _gStage = null;
 
   private ngAfterViewInit() {
-    this._gStage = new Konva.Stage({
-      container: 'divCanvasContainer',
-      width: this._gWidthWindow,
-      height: this._gHeightWindow
-    });
-    let rect = new Konva.Rect({
-      x: 50,
-      y: 50,
-      width: 100,
-      height: 50,
-      fill: 'green',
-      stroke: 'black',
-      strokeWidth: 4,
-      draggable: true
-    });
-    // add the shape to the layer
-    this._gLayer.add(rect);
 
-    let circle = new Konva.Circle({
-      x: this._gStage.getWidth() / 2,
-      y: this._gStage.getHeight() / 2,
-      radius: 70,
-      fill: 'red',
-      stroke: 'black',
-      strokeWidth: 4,
-      draggable: true
-    });
-    // add the shape to the layer
-    this._gLayer.add(circle);
   }
 
-  uploadToFirebase(file) {
-    const id = Math.random().toString(36).substring(2);
-    this.ref = this.afStorage.ref(id);
-    this.task = this.ref.put(file);
+  private initBusAdsFrame() {
+    //AdsBGFrame
+    this.shapeContainerFrame = new createjs.Shape();
+    this.shapeContainerFrame.graphics.beginStroke("black");
+    this.shapeContainerFrame.graphics.beginFill("white");
+    this.shapeContainerFrame.graphics.moveTo(198, 70).lineTo(513, 70).lineTo(513, 255).lineTo(320, 255).bezierCurveTo(300, 190, 250, 190, 230, 255).lineTo(198, 255).closePath();
+    this.containerFrame = new createjs.Container();
+    this.containerFrame.mask = this.shapeContainerFrame;
+    this.containerFrame.addChild(this.shapeContainerFrame);
+
+    //test
+    console.log("this.containerFrame=", this.containerFrame);
+    console.log("shapeAdsFrame=", this.shapeContainerFrame);
+
+    //LogoFrame
+    //corner top 20% left 20%
+    let topLeft = this.drawService.getCornerTopLeft(this.shapeContainerFrame.graphics.instructions);
+    let topRight = this.drawService.getCornerTopRight(this.shapeContainerFrame.graphics.instructions);
+    let width: number = this.drawService.calWidth(topLeft, topRight);
+
+    this.containerLogo = new createjs.Container();
+    //this.makeDraggable(this.containerLogo);
+
+    this.shapeContainerLogo = new createjs.Shape();
+    this.shapeContainerLogo.graphics.beginStroke("black");
+    this.shapeContainerLogo.graphics.setStrokeDash([2, 2]);
+    this.shapeContainerLogo.graphics.beginFill("white");
+    this.shapeContainerLogo.graphics.rect(topLeft.x, topLeft.y, 75, 75);
+    this.containerLogo.addChild(this.shapeContainerLogo);
+
+    // let testRect = new createjs.Shape();
+    // testRect.graphics.beginStroke("black");
+    // testRect.graphics.beginFill("red");
+    // testRect.graphics.rect(topLeft.x, topLeft.y, 30, 30);
+    // this.containerLogo.addChild(testRect);
+
+
+    console.log("this.shapeContainerLogo=", this.shapeContainerLogo);
+
+    //ProductFrame
+    //corner top 100% right 20%
+
+    this.shapeContainerProduct = new createjs.Shape();
+    this.shapeContainerProduct.graphics.beginStroke("black");
+    this.shapeContainerProduct.graphics.setStrokeDash([2, 2]);
+    this.shapeContainerProduct.graphics.beginFill("white");
+    this.shapeContainerProduct.graphics.rect(400, 70, 113, 185);
+    this.containerProduct = new createjs.Container();
+    this.containerProduct.addChild(this.shapeContainerProduct);
+    //this.makeDraggable(this.containerProduct);
+    console.log("shapeProduct=", this.shapeContainerProduct);
+
+    this.mainStage.addChild(this.containerFrame);
+    this.mainStage.addChild(this.containerLogo);
+    this.mainStage.addChild(this.containerProduct);
+
+    // this.containerLogo.addEventListener("mousedown", (evt) => {
+    //   var offset = { x: evt.target.x - evt.stageX, y: evt.target.y - evt.stageY };
+    // });
+
+    this.mainStage.update();
   }
 
-  public upload(event) {
-    console.log(event);
-    const elem = event.target;
-    if (elem.files.length > 0) {
-      console.log(elem.files[0]);
-      //this.uploadToFirebase(elem.files[0]);
+  private makeDraggable(o) {
+    let offset = null
+    o.addEventListener("mousedown", (evt) => {
+      offset = { x: evt.target.x - evt.stageX, y: evt.target.y - evt.stageY };
+    });
+    o.addEventListener("pressmove", (evt) => {
+      evt.currentTarget.x = evt.stageX + offset.x;
+      evt.currentTarget.y = evt.stageY + offset.y;
+      o.getStage().update();
+    });
+  }
 
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        console.log("Test");
-        let image = document.createElement("img");
-        // the result image data
-        image.src = e.target["result"];
-        const kImage = new Konva.Image({
-          image: image,
-          width: 100,
-          height: 100,
-          x: 10,
-          y: 10,
-          draggable: true
-        });
+  getFilteringSelectValue() {
+    if (1 == 1) {
 
-        this._gLayer.add(kImage);
+    }
+  }
+
+  _initTestData() {
+    let data = new ContextModel();
+    data.commandList = [
+      { command: 'beginPath', x: 0, y: 0 },
+      { command: 'moveTo', x: 198, y: 70 },
+      { command: 'lineTo', x: 513, y: 70 },
+      { command: 'lineTo', x: 513, y: 255 },
+      { command: 'lineTo', x: 320, y: 255 },
+      { command: 'bezierCurveTo', x: 300, y: 190, x2: 250, y2: 190, x3: 230, y3: 255 },
+      { command: 'lineTo', x: 198, y: 255 },
+      { command: 'closePath', x: 0, y: 0 },
+    ]
+    return data;
+  }
+
+  _drawFunction(context, commandList) {
+    console.log("commandList=", commandList);
+    commandList.commandList.forEach(commandSet => {
+      switch (commandSet.command) {
+        case 'beginPath':
+          context.beginPath();
+          break;
+        case 'moveTo':
+          context.moveTo(commandSet.x, commandSet.y);
+          break;
+        case 'lineTo':
+          context.lineTo(commandSet.x, commandSet.y);
+          break;
+        case 'bezierCurveTo':
+          context.bezierCurveTo(commandSet.x, commandSet.y, commandSet.x2, commandSet.y2, commandSet.x3, commandSet.y3);
+          break;
+        default:
+          context.closePath();
       }
-      reader.readAsDataURL(elem.files[0]);
-    }
+    });
+
   }
 
-  checkForMIMEType(response) {
-    var blob;
-    if (response.mimetype == 'pdf') {
-      blob = this.converBase64toBlob(response.content, 'image/png');
-    } else if (response.mimetype == 'doc') {
-      blob = this.converBase64toBlob(response.content, 'application/msword');
-      /*Find the content types for different format of file at http://www.freeformatter.com/mime-types-list.html*/
-    }
-    var blobURL = URL.createObjectURL(blob);
-    window.open(blobURL);
+  _initAdsArea() {
+
   }
 
-  converBase64toBlob(content, contentType) {
-    contentType = contentType || '';
-    var sliceSize = 512;
-    var byteCharacters = window.atob(content); //method which converts base64 to binary
-    var byteArrays = [
-    ];
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      var byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
+  test() {
+
+  }
+
+  selectImageBackGround(img) {
+    console.log("img=", img);
+    var bitmap = new createjs.Bitmap(img);
+    bitmap.scaleX = 0.1;
+    bitmap.scaleY = 0.1;
+    //this.shapeContainerFrame.graphics.beginBitmapFill(bitmap, "no-repeat");
+
+    // var cloneGraphic = this.shapeContainerFrame.graphics.clone(); // Would be nice
+    // cloneGraphic.graphics.beginFill("red");
+    // this.shapeContainerFrame.graphics.replace(this.shapeContainerFrame.graphics, cloneGraphic);
+
+    var clone:createjs.Graphics = this.shapeContainerFrame.graphics.clone();
+    console.log("clone", clone);
+    clone.beginFill("green");
+    //this.shapeContainerFrame.graphics.replace(this.shapeContainerFrame.graphics, clone);
+
+    //this.containerFrame.removeAllChildren();
+    //var shape = new createjs.Shape(clone);
+    //shape.graphics.beginFill("red");
+    //shape.updateCache();
+    //this.containerFrame.addChild(shape);
+    //this.shapeContainerFrame = shape;
+
+ 
+    //this.shapeContainerFrame.graphics.clear();
+    this.shapeContainerFrame.graphics = clone.beginFill('red');
+    this.shapeContainerFrame.graphics.move(0, 0);
+
+
+    //this.shapeContainerFrame.graphics = new createjs.Graphics();
+    //this.shapeContainerFrame.graphics = clone;
+
+    this.mainStage.update();
+  }
+
+  selectImageLogo(img) {
+    let shapeLogoHWXY: HWXY = this.drawService.getHWXYrect(this.shapeContainerLogo.graphics);
+    var bitmap = new createjs.Bitmap(img);
+
+    const naturalWidth = bitmap.image["naturalWidth"];
+    const naturalHeight = bitmap.image["naturalWidth"];
+    const ratioX = shapeLogoHWXY.w / naturalWidth;
+    const ratioY = shapeLogoHWXY.h / naturalHeight;
+    let ratio = ratioX;
+    if (ratioY < ratioX) {
+      ratio = ratioY;
     }
-    var blob = new Blob(byteArrays, {
-      type: contentType
-    }); //statement which creates the blob
-    return blob;
+    ratio = ratio * 0.9;
+
+    bitmap.scaleX = ratio;
+    bitmap.scaleY = ratio;
+    bitmap.x = shapeLogoHWXY.x;
+    bitmap.y = shapeLogoHWXY.y;
+
+    this.containerLogo.addChild(bitmap);
+    this.makeDraggable(bitmap);
+    this.mainStage.update();
+  }
+
+  selectImageProduct(img) {
+    let shapeProductHWXY: HWXY = this.drawService.getHWXYrect(this.shapeContainerProduct.graphics);
+    var bitmap = new createjs.Bitmap(img);
+
+    const naturalWidth = bitmap.image["naturalWidth"];
+    const naturalHeight = bitmap.image["naturalWidth"];
+    const ratioX = shapeProductHWXY.w / naturalWidth;
+    const ratioY = shapeProductHWXY.h / naturalHeight;
+    let ratio = ratioX;
+    if (ratioY < ratioX) {
+      ratio = ratioY;
+    }
+    ratio = ratio * 0.9;
+
+    bitmap.scaleX = ratio;
+    bitmap.scaleY = ratio;
+    bitmap.x = shapeProductHWXY.x;
+    bitmap.y = shapeProductHWXY.y;
+
+    this.containerProduct.addChild(bitmap);
+    this.makeDraggable(bitmap);
+    this.mainStage.update();
+  }
+
+  selectImagePresenter(img) {
+
   }
 
   public submit() {
-    this._gStage.add(this._gLayer);
+
   }
 
-  getBase64FromImageUrl(url) {
-    var img = new Image();
-
-    img.setAttribute('crossOrigin', 'anonymous');
-
-    img.onload = function () {
-      var canvas = document.createElement("canvas");
-      canvas.width = 100;
-      canvas.height = 100;
-
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-
-      var dataURL = canvas.toDataURL("image/png");
-
-      alert(dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
-    };
-
-    img.src = url;
-
-    console.log("PPPPPPPPPPimg ", img);
-  }
 }

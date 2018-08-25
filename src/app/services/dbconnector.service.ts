@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as mysql from "mysql";
 import { AppService, ResponseType } from './app.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';

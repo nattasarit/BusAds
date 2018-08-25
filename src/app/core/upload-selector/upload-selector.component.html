@@ -1,0 +1,19 @@
+<div>
+  <span>{{title}}</span>
+  <div class="carousel-container">
+    <ui-carousel #imgSlider1 [infinite]="false" [fade]="false" [speed]="1000" [autoPlay]="false" *ngIf="isAddedImage">
+      <ui-carousel-item *ngFor="let item of items">
+        <!--<img width=300 heigth=300 [ui-lazy-load]="item.img">-->
+        <img width=300 [src]="item.img">
+      </ui-carousel-item>
+    </ui-carousel>
+  </div>
+  <div class="upload-container">
+    Upload Logo
+    <label class="custom-file-upload mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Browse
+      <input type="file" value="upload" placeholder="Upload" accept="image/png, image/jpeg" (change)=upload($event)>
+    </label>
+    <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="submit()">Upload</button>
+  </div>
+  <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="selectCurrentImage()">Confirm</button>
+</div>

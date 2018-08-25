@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DbconnectorService } from '../../services/dbconnector.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,12 +19,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-     this.dbconnector.test().subscribe(response => {
-      console.log("response = ",response);
-      if (response.success) {
+    //  this.dbconnector.test().subscribe(response => {
+    //   console.log("response = ",response);
+    //   if (response.success) {
         
-      }
-    });
+    //   }
+    //});
     
   }
 
