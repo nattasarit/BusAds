@@ -118,6 +118,7 @@ export class CanvasComponent implements OnInit {
     // });
 
     this.mainStage.update();
+
   }
 
   private makeDraggable(o) {
@@ -195,27 +196,21 @@ export class CanvasComponent implements OnInit {
     // cloneGraphic.graphics.beginFill("red");
     // this.shapeContainerFrame.graphics.replace(this.shapeContainerFrame.graphics, cloneGraphic);
 
-    var clone:createjs.Graphics = this.shapeContainerFrame.graphics.clone();
-    console.log("clone", clone);
-    clone.beginFill("green");
-    //this.shapeContainerFrame.graphics.replace(this.shapeContainerFrame.graphics, clone);
+    
+    //this.shapeContainerFrame.graphics.moveTo(198, 70).lineTo(513, 70).lineTo(513, 255).lineTo(320, 255).bezierCurveTo(300, 190, 250, 190, 230, 255).lineTo(198, 255).closePath();
 
-    //this.containerFrame.removeAllChildren();
-    //var shape = new createjs.Shape(clone);
-    //shape.graphics.beginFill("red");
-    //shape.updateCache();
-    //this.containerFrame.addChild(shape);
-    //this.shapeContainerFrame = shape;
-
- 
-    //this.shapeContainerFrame.graphics.clear();
-    this.shapeContainerFrame.graphics = clone.beginFill('red');
-    this.shapeContainerFrame.graphics.move(0, 0);
+    let clone = this.shapeContainerFrame.graphics.clone();
+    clone.beginFill("#51D9FF");
+    clone.unstore();
+    clone.beginFill("#51D9FF");
+    clone.clear();
 
 
-    //this.shapeContainerFrame.graphics = new createjs.Graphics();
-    //this.shapeContainerFrame.graphics = clone;
+    this.shapeContainerFrame = new createjs.Shape(clone);
 
+    console.log("this.shapeContainerFrame=", this.shapeContainerFrame);
+
+    this.mainStage.update();
     this.mainStage.update();
   }
 
