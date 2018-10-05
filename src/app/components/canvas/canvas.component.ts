@@ -50,6 +50,7 @@ export class CanvasComponent implements OnInit {
 
     this.initBusAdsFrame();
     this.mainStage.update();
+    //test edit
   }
 
   private ngAfterViewInit() {
