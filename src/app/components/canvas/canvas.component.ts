@@ -38,7 +38,6 @@ export class CanvasComponent implements OnInit {
 
 
   private mainStage = null;
-  private mainContext = null;
   private containerFrame = null;
   private containerLogo = null;
   private containerProduct = null;
@@ -51,13 +50,33 @@ export class CanvasComponent implements OnInit {
 
     this.initBusAdsFrame();
     this.mainStage.update();
+    //test edit
   }
 
   private ngAfterViewInit() {
 
   }
 
+  private handleTick(event) {
+    this.mainStage.update();
+  }
+
   private initBusAdsFrame() {
+    createjs.Ticker.addEventListener("tick", (evt) => this.handleTick(evt));
+
+    //BusFrame
+    var busBitmap = new createjs.Bitmap("assets/images/1.png");
+    console.log("busBitmap=", busBitmap);
+    const ratioX = 500 / busBitmap.image["naturalWidth"];
+    const ratioY = 300 / busBitmap.image["naturalWidth"];
+    console.log("ratioX=", ratioX);
+    console.log("ratioY=", ratioY);
+    busBitmap.scaleX = 0.5;
+    busBitmap.scaleY = 0.5;
+    this.mainStage.addChild(busBitmap);
+    busBitmap.visible = false
+    this.mainStage.update();
+    
     //AdsBGFrame
     this.shapeContainerFrame = new createjs.Shape();
     this.shapeContainerFrame.graphics.beginStroke("black");
@@ -67,58 +86,33 @@ export class CanvasComponent implements OnInit {
     this.containerFrame.mask = this.shapeContainerFrame;
     this.containerFrame.addChild(this.shapeContainerFrame);
 
-    //test
-    console.log("this.containerFrame=", this.containerFrame);
-    console.log("shapeAdsFrame=", this.shapeContainerFrame);
-
-    //LogoFrame
-    //corner top 20% left 20%
+    //Cal
     let topLeft = this.drawService.getCornerTopLeft(this.shapeContainerFrame.graphics.instructions);
     let topRight = this.drawService.getCornerTopRight(this.shapeContainerFrame.graphics.instructions);
     let width: number = this.drawService.calWidth(topLeft, topRight);
 
-    this.containerLogo = new createjs.Container();
-    //this.makeDraggable(this.containerLogo);
-
+    //LogoFrame
+    //corner top 20% left 20%
     this.shapeContainerLogo = new createjs.Shape();
     this.shapeContainerLogo.graphics.beginStroke("black");
     this.shapeContainerLogo.graphics.setStrokeDash([2, 2]);
-    this.shapeContainerLogo.graphics.beginFill("white");
     this.shapeContainerLogo.graphics.rect(topLeft.x, topLeft.y, 75, 75);
+    this.containerLogo = new createjs.Container();
     this.containerLogo.addChild(this.shapeContainerLogo);
-
-    // let testRect = new createjs.Shape();
-    // testRect.graphics.beginStroke("black");
-    // testRect.graphics.beginFill("red");
-    // testRect.graphics.rect(topLeft.x, topLeft.y, 30, 30);
-    // this.containerLogo.addChild(testRect);
-
-
-    console.log("this.shapeContainerLogo=", this.shapeContainerLogo);
 
     //ProductFrame
     //corner top 100% right 20%
-
     this.shapeContainerProduct = new createjs.Shape();
     this.shapeContainerProduct.graphics.beginStroke("black");
     this.shapeContainerProduct.graphics.setStrokeDash([2, 2]);
-    this.shapeContainerProduct.graphics.beginFill("white");
     this.shapeContainerProduct.graphics.rect(400, 70, 113, 185);
     this.containerProduct = new createjs.Container();
     this.containerProduct.addChild(this.shapeContainerProduct);
-    //this.makeDraggable(this.containerProduct);
-    console.log("shapeProduct=", this.shapeContainerProduct);
 
     this.mainStage.addChild(this.containerFrame);
     this.mainStage.addChild(this.containerLogo);
     this.mainStage.addChild(this.containerProduct);
-
-    // this.containerLogo.addEventListener("mousedown", (evt) => {
-    //   var offset = { x: evt.target.x - evt.stageX, y: evt.target.y - evt.stageY };
-    // });
-
     this.mainStage.update();
-
   }
 
   private makeDraggable(o) {
@@ -190,27 +184,13 @@ export class CanvasComponent implements OnInit {
     var bitmap = new createjs.Bitmap(img);
     bitmap.scaleX = 0.1;
     bitmap.scaleY = 0.1;
-    //this.shapeContainerFrame.graphics.beginBitmapFill(bitmap, "no-repeat");
 
-    // var cloneGraphic = this.shapeContainerFrame.graphics.clone(); // Would be nice
-    // cloneGraphic.graphics.beginFill("red");
-    // this.shapeContainerFrame.graphics.replace(this.shapeContainerFrame.graphics, cloneGraphic);
-
-    
-    //this.shapeContainerFrame.graphics.moveTo(198, 70).lineTo(513, 70).lineTo(513, 255).lineTo(320, 255).bezierCurveTo(300, 190, 250, 190, 230, 255).lineTo(198, 255).closePath();
-
-    let clone = this.shapeContainerFrame.graphics.clone();
-    clone.beginFill("#51D9FF");
-    clone.unstore();
-    clone.beginFill("#51D9FF");
-    clone.clear();
-
-
-    this.shapeContainerFrame = new createjs.Shape(clone);
-
-    console.log("this.shapeContainerFrame=", this.shapeContainerFrame);
-
-    this.mainStage.update();
+    var bitmap = new createjs.Bitmap(img);
+    let m = new createjs.Matrix2D();
+    // m.translate(x, y);
+    m.scale(this.shapeContainerFrame.graphics.width / bitmap.image["naturalWidth"], this.shapeContainerFrame.graphics.height / bitmap.image["naturalHeight"]);
+    this.shapeContainerFrame.graphics.beginBitmapFill(img, "no-repeat", m);
+    this.shapeContainerFrame.graphics.moveTo(198, 70).lineTo(513, 70).lineTo(513, 255).lineTo(320, 255).bezierCurveTo(300, 190, 250, 190, 230, 255).lineTo(198, 255).closePath();
     this.mainStage.update();
   }
 
