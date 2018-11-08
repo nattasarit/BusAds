@@ -1,0 +1,102 @@
+<div class="bg-all-page">
+    <!--<div class="div-container-upload">
+    <input type="file" value="upload" placeholder="Upload file..." accept=".jpg" (change)=upload($event) multiple>
+    <button type="button" (click)="submit()">Upload</button>
+  </div>-->
+    <div class="div-main-container">
+        <div class="div-left-menu">
+            <mat-accordion>
+                <!-- Panel Bus -->
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Bus
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div>
+                        <span>Bus Route</span>
+                        <!-- <ax-mat-filtering-select #filteringTest1 [dataStore]="dataTest1"></ax-mat-filtering-select> -->
+                        <mat-form-field>
+                            <mat-select #selectorBusRoute placeholder="Route">
+                                <mat-option *ngFor="let route of routes" [value]="route.value">
+                                    {{route.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-button (click)="getFilteringSelectValue()">Confirm</button>
+                        <button mat-button (click)="test()">TEST</button>
+                    </div>
+                </mat-expansion-panel>
+                <!-- Panel  BackGround -->
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Background
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-upload-selector [title]="'Select Background Image'" (selectImage)="selectImageBackGround($event)">
+                    </app-upload-selector>
+                </mat-expansion-panel>
+                <!-- Panel Logo -->
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Logo
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-upload-selector [title]="'Select Logo Image'" (selectImage)="selectImageLogo($event)">
+                    </app-upload-selector>
+                </mat-expansion-panel>
+                <!-- Panel Product -->
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Product
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-upload-selector [title]="'Select Product Image'" (selectImage)="selectImageProduct($event)">
+                    </app-upload-selector>
+                </mat-expansion-panel>
+                <!-- Panel Presenter -->
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Presenter
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-upload-selector [title]="'Select Presenter Image'" (selectImage)="selectImagePresenter($event)">
+                    </app-upload-selector>
+                </mat-expansion-panel>
+                <!-- Panel Presenter -->
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Additional Image
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-upload-selector [title]="'Select Presenter Image'">
+                    </app-upload-selector>
+                </mat-expansion-panel>
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Message
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <!-- <mat-card>
+                Upload
+                <input type="file" value="upload" placeholder="Upload file..." accept="*" (change)=upload($event) multiple>
+                <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="submit()">Upload</button>
+            </mat-card> -->
+        </div>
+        <div class="div-canvas-container">
+            <mat-card>
+                <canvas id="divCanvasContainer" width="900" height="500"></canvas>
+            </mat-card>
+        </div>
+
+    </div>
+</div>
