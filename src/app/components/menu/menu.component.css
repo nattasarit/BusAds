@@ -1,0 +1,25 @@
+.div-left-menu{
+    padding: 0px;
+    width: 75px;
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    overflow-y: hidden;
+    background-color: rgb(204, 170, 255);
+    color: white;
+}
+
+.div-left-menu .mat-card{
+    margin-bottom: 10px;
+}
+
+.menu-button{
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.menu-icon{
+    color: white;
+}

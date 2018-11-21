@@ -3,29 +3,28 @@ import { DbconnectorService } from '../../services/dbconnector.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
 
   constructor(public dbconnector: DbconnectorService) {
-    //auth.handleAuthentication();
+    // auth.handleAuthentication();
   }
 
 
   ngOnInit() {
-    
+
   }
 
-  login(){
+  login() {
     //  this.dbconnector.test().subscribe(response => {
     //   console.log("response = ",response);
     //   if (response.success) {
-        
-    //   }
-    //});
-    
-  }
 
+    //   }
+    // });
+
+  }
 }

@@ -5,7 +5,7 @@ import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 // import * as fabric from '../../../../node_modules/fabric';
 // const Fabric: any = fabric;
-//import { Stage, Shape } from '@createjs/easeljs';
+// import { Stage, Shape } from '@createjs/easeljs';
 import { AppService, ResponseType } from '../../services/app.service';
 import { DrawService, HWXY } from '../../services/draw.service';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -19,12 +19,11 @@ export interface Food {
 }
 
 @Component({
-  selector: 'app-canvas',
-  templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.css']
+  selector: 'app-canvas-panel',
+  templateUrl: './canvas-panel.component.html',
+  styleUrls: ['./canvas-panel.component.css']
 })
-
-export class CanvasComponent implements OnInit {
+export class CanvasPanelComponent implements OnInit {
   constructor(public appService: AppService, public drawService: DrawService) { }
 
   @ViewChild('selectorBusRoute') selectorBusRoute: MatSelect;
@@ -46,15 +45,11 @@ export class CanvasComponent implements OnInit {
   private shapeContainerProduct = null;
 
   ngOnInit() {
-    this.mainStage = new createjs.Stage("divCanvasContainer");
+    this.mainStage = new createjs.Stage('divCanvasContainer');
 
     this.initBusAdsFrame();
     this.mainStage.update();
-    //test edit
-  }
-
-  private ngAfterViewInit() {
-
+    // test edit
   }
 
   private handleTick(event) {
@@ -62,65 +57,65 @@ export class CanvasComponent implements OnInit {
   }
 
   private initBusAdsFrame() {
-    createjs.Ticker.addEventListener("tick", (evt) => this.handleTick(evt));
+    createjs.Ticker.addEventListener('tick', (evt) => this.handleTick(evt));
 
-    //BusFrame
-    var busBitmap = new createjs.Bitmap("assets/images/1.png");
-    console.log("busBitmap=", busBitmap);
-    const ratioX = 500 / busBitmap.image["naturalWidth"];
-    const ratioY = 300 / busBitmap.image["naturalWidth"];
-    console.log("ratioX=", ratioX);
-    console.log("ratioY=", ratioY);
+    // BusFrame
+    const busBitmap = new createjs.Bitmap('assets/images/1.png');
+    console.log('busBitmap=', busBitmap);
+    const ratioX = 500 / busBitmap.image['naturalWidth'];
+    const ratioY = 300 / busBitmap.image['naturalWidth'];
+    console.log('ratioX=', ratioX);
+    console.log('ratioY=', ratioY);
     busBitmap.scaleX = 0.5;
     busBitmap.scaleY = 0.5;
     this.mainStage.addChild(busBitmap);
-    busBitmap.visible = false
+    busBitmap.visible = false;
     this.mainStage.update();
-    
-    //AdsBGFrame
+
+    // AdsBGFrame
     this.shapeContainerFrame = new createjs.Shape();
-    this.shapeContainerFrame.graphics.beginStroke("black");
-    this.shapeContainerFrame.graphics.beginFill("white");
+    this.shapeContainerFrame.graphics.beginStroke('black');
+    this.shapeContainerFrame.graphics.beginFill('white');
     this.shapeContainerFrame.graphics.moveTo(198, 70).lineTo(513, 70).lineTo(513, 255).lineTo(320, 255).bezierCurveTo(300, 190, 250, 190, 230, 255).lineTo(198, 255).closePath();
     this.containerFrame = new createjs.Container();
     this.containerFrame.mask = this.shapeContainerFrame;
     this.containerFrame.addChild(this.shapeContainerFrame);
 
-    //Cal
-    let topLeft = this.drawService.getCornerTopLeft(this.shapeContainerFrame.graphics.instructions);
-    let topRight = this.drawService.getCornerTopRight(this.shapeContainerFrame.graphics.instructions);
-    let width: number = this.drawService.calWidth(topLeft, topRight);
+    // Cal
+    const topLeft = this.drawService.getCornerTopLeft(this.shapeContainerFrame.graphics.instructions);
+    const topRight = this.drawService.getCornerTopRight(this.shapeContainerFrame.graphics.instructions);
+    const width: number = this.drawService.calWidth(topLeft, topRight);
 
-    //LogoFrame
-    //corner top 20% left 20%
+    // LogoFrame
+    // corner top 20% left 20%
     this.shapeContainerLogo = new createjs.Shape();
-    this.shapeContainerLogo.graphics.beginStroke("black");
+    this.shapeContainerLogo.graphics.beginStroke('black');
     this.shapeContainerLogo.graphics.setStrokeDash([2, 2]);
     this.shapeContainerLogo.graphics.rect(topLeft.x, topLeft.y, 75, 75);
     this.containerLogo = new createjs.Container();
     this.containerLogo.addChild(this.shapeContainerLogo);
 
-    //ProductFrame
-    //corner top 100% right 20%
+    // ProductFrame
+    // corner top 100% right 20%
     this.shapeContainerProduct = new createjs.Shape();
-    this.shapeContainerProduct.graphics.beginStroke("black");
+    this.shapeContainerProduct.graphics.beginStroke('black');
     this.shapeContainerProduct.graphics.setStrokeDash([2, 2]);
     this.shapeContainerProduct.graphics.rect(400, 70, 113, 185);
     this.containerProduct = new createjs.Container();
     this.containerProduct.addChild(this.shapeContainerProduct);
 
-    this.mainStage.addChild(this.containerFrame);
-    this.mainStage.addChild(this.containerLogo);
-    this.mainStage.addChild(this.containerProduct);
+    // this.mainStage.addChild(this.containerFrame);
+    // this.mainStage.addChild(this.containerLogo);
+    // this.mainStage.addChild(this.containerProduct);
     this.mainStage.update();
   }
 
   private makeDraggable(o) {
-    let offset = null
-    o.addEventListener("mousedown", (evt) => {
+    let offset = null;
+    o.addEventListener('mousedown', (evt) => {
       offset = { x: evt.target.x - evt.stageX, y: evt.target.y - evt.stageY };
     });
-    o.addEventListener("pressmove", (evt) => {
+    o.addEventListener('pressmove', (evt) => {
       evt.currentTarget.x = evt.stageX + offset.x;
       evt.currentTarget.y = evt.stageY + offset.y;
       o.getStage().update();
@@ -128,13 +123,13 @@ export class CanvasComponent implements OnInit {
   }
 
   getFilteringSelectValue() {
-    if (1 == 1) {
+    if (1 === 1) {
 
     }
   }
 
   _initTestData() {
-    let data = new ContextModel();
+    const data = new ContextModel();
     data.commandList = [
       { command: 'beginPath', x: 0, y: 0 },
       { command: 'moveTo', x: 198, y: 70 },
@@ -144,12 +139,12 @@ export class CanvasComponent implements OnInit {
       { command: 'bezierCurveTo', x: 300, y: 190, x2: 250, y2: 190, x3: 230, y3: 255 },
       { command: 'lineTo', x: 198, y: 255 },
       { command: 'closePath', x: 0, y: 0 },
-    ]
+    ];
     return data;
   }
 
   _drawFunction(context, commandList) {
-    console.log("commandList=", commandList);
+    console.log('commandList=', commandList);
     commandList.commandList.forEach(commandSet => {
       switch (commandSet.command) {
         case 'beginPath':
@@ -180,26 +175,26 @@ export class CanvasComponent implements OnInit {
   }
 
   selectImageBackGround(img) {
-    console.log("img=", img);
-    var bitmap = new createjs.Bitmap(img);
+    console.log('img=', img);
+    let bitmap = new createjs.Bitmap(img);
     bitmap.scaleX = 0.1;
     bitmap.scaleY = 0.1;
 
-    var bitmap = new createjs.Bitmap(img);
-    let m = new createjs.Matrix2D();
+    bitmap = new createjs.Bitmap(img);
+    const m = new createjs.Matrix2D();
     // m.translate(x, y);
-    m.scale(this.shapeContainerFrame.graphics.width / bitmap.image["naturalWidth"], this.shapeContainerFrame.graphics.height / bitmap.image["naturalHeight"]);
-    this.shapeContainerFrame.graphics.beginBitmapFill(img, "no-repeat", m);
+    m.scale(this.shapeContainerFrame.graphics.width / bitmap.image['naturalWidth'], this.shapeContainerFrame.graphics.height / bitmap.image['naturalHeight']);
+    this.shapeContainerFrame.graphics.beginBitmapFill(img, 'no-repeat', m);
     this.shapeContainerFrame.graphics.moveTo(198, 70).lineTo(513, 70).lineTo(513, 255).lineTo(320, 255).bezierCurveTo(300, 190, 250, 190, 230, 255).lineTo(198, 255).closePath();
     this.mainStage.update();
   }
 
   selectImageLogo(img) {
-    let shapeLogoHWXY: HWXY = this.drawService.getHWXYrect(this.shapeContainerLogo.graphics);
-    var bitmap = new createjs.Bitmap(img);
+    const shapeLogoHWXY: HWXY = this.drawService.getHWXYrect(this.shapeContainerLogo.graphics);
+    const bitmap = new createjs.Bitmap(img);
 
-    const naturalWidth = bitmap.image["naturalWidth"];
-    const naturalHeight = bitmap.image["naturalWidth"];
+    const naturalWidth = bitmap.image['naturalWidth'];
+    const naturalHeight = bitmap.image['naturalWidth'];
     const ratioX = shapeLogoHWXY.w / naturalWidth;
     const ratioY = shapeLogoHWXY.h / naturalHeight;
     let ratio = ratioX;
@@ -219,11 +214,11 @@ export class CanvasComponent implements OnInit {
   }
 
   selectImageProduct(img) {
-    let shapeProductHWXY: HWXY = this.drawService.getHWXYrect(this.shapeContainerProduct.graphics);
-    var bitmap = new createjs.Bitmap(img);
+    const shapeProductHWXY: HWXY = this.drawService.getHWXYrect(this.shapeContainerProduct.graphics);
+    const bitmap = new createjs.Bitmap(img);
 
-    const naturalWidth = bitmap.image["naturalWidth"];
-    const naturalHeight = bitmap.image["naturalWidth"];
+    const naturalWidth = bitmap.image['naturalWidth'];
+    const naturalHeight = bitmap.image['naturalWidth'];
     const ratioX = shapeProductHWXY.w / naturalWidth;
     const ratioY = shapeProductHWXY.h / naturalHeight;
     let ratio = ratioX;

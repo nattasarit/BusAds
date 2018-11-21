@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+/*import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';*/
 
 @Injectable()
 export class FirebaseService {
+
+  constructor() { }
+
+  uploadToFirebase(file) {
+    const id = Math.random().toString(36).substring(2);
+  }
+  /*
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   constructor(private afStorage: AngularFireStorage) { }
@@ -47,7 +54,6 @@ export class FirebaseService {
       blob = this.converBase64toBlob(response.content, 'image/png');
     } else if (response.mimetype == 'doc') {
       blob = this.converBase64toBlob(response.content, 'application/msword');
-      /*Find the content types for different format of file at http://www.freeformatter.com/mime-types-list.html*/
     }
     var blobURL = URL.createObjectURL(blob);
     window.open(blobURL);
@@ -96,4 +102,5 @@ export class FirebaseService {
 
     console.log("PPPPPPPPPPimg ", img);
   }
+  */
 }

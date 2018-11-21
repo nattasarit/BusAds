@@ -1,0 +1,6 @@
+<div class="div-left-menu">
+  <div *ngFor="let menu of menus;" class="menu-button" (click)="onCLickMenu(menu.name)">
+      <i class="menu-icon {{menu.icon}}"></i>
+      <div>{{menu.name}}</div>
+  </div>
+</div>

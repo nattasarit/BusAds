@@ -5,7 +5,7 @@ import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 // import * as fabric from '../../../../node_modules/fabric';
 // const Fabric: any = fabric;
-//import { Stage, Shape } from '@createjs/easeljs';
+// import { Stage, Shape } from '@createjs/easeljs';
 import { AppService, ResponseType } from '../../services/app.service';
 import { DrawService, HWXY } from '../../services/draw.service';
 import { forEach } from '@angular/router/src/utils/collection';

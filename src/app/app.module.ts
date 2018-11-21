@@ -1,11 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { CanvasComponent } from './components/canvas/canvas.component';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireStorageModule } from 'angularfire2/storage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -21,38 +17,48 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MenuComponent } from './components/menu/menu.component';
+import { DesignPageComponent } from './components/design-page/design-page.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { UploadPanelComponent } from './components/upload-panel/upload-panel.component';
+import { CanvasPanelComponent } from './components/canvas-panel/canvas-panel.component';
 
 const APP_ROUTES: Routes = [
   {
-    path: 'canvas',
-    component: CanvasComponent
+    path: 'design',
+    component: DesignPageComponent
   },
   {
     path: '',
-    component: LoginComponent
+    component: LoginPageComponent
   }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CanvasComponent,
-    LoginComponent,
     UploadSelectorComponent,
+    MenuComponent,
+    DesignPageComponent,
+    LoginPageComponent,
+    UploadPanelComponent,
+    CanvasPanelComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     [RouterModule.forRoot(APP_ROUTES)],
+    /*
     AngularFireModule.initializeApp({
-      apiKey: "AIzaSyB1vDNAIH-fNnhgEW3oREtL-eGdW5PGQHw",
-      authDomain: "busads-ab252.firebaseapp.com",
-      databaseURL: "https://busads-ab252.firebaseio.com",
-      projectId: "busads-ab252",
-      storageBucket: "busads-ab252.appspot.com",
-      messagingSenderId: "485053449120"
+      apiKey: 'AIzaSyB1vDNAIH-fNnhgEW3oREtL-eGdW5PGQHw',
+      authDomain: 'busads-ab252.firebaseapp.com',
+      databaseURL: 'https://busads-ab252.firebaseio.com',
+      projectId: 'busads-ab252',
+      storageBucket: 'busads-ab252.appspot.com',
+      messagingSenderId: '485053449120'
     }),
     AngularFireStorageModule,
+    */
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
@@ -61,12 +67,13 @@ const APP_ROUTES: Routes = [
     UICarouselModule,
     MatDialogModule,
     MatExpansionModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     MatSelectModule
   ],
   exports: [RouterModule],
   providers: [DbconnectorService, AppService, DrawService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [UploadPanelComponent, CanvasPanelComponent]
 })
 export class AppModule { }

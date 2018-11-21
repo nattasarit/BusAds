@@ -3,22 +3,19 @@
     <input type="file" value="upload" placeholder="Upload file..." accept=".jpg" (change)=upload($event) multiple>
     <button type="button" (click)="submit()">Upload</button>
   </div>-->
-    <div class="div-main-container">
-        <div class="div-left-menu">
-            <div class="">
-            </div>
 
-            <!-- <mat-card>
+    <div class="div-main-container">
+        <app-menu (menuIsClicked)="onMenuIsClicked($event)">
+        </app-menu>
+        <div class="div-canvas-container">
+            <div #mainDesignPageContainer>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <mat-card>
                 Upload
                 <input type="file" value="upload" placeholder="Upload file..." accept="*" (change)=upload($event) multiple>
                 <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="submit()">Upload</button>
             </mat-card> -->
-        </div>
-        <div class="div-canvas-container">
-            <mat-card>
-                <canvas id="divCanvasContainer" width="900" height="500"></canvas>
-            </mat-card>
-        </div>
-
-    </div>
-</div>
