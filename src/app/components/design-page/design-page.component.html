@@ -3,11 +3,11 @@
     <input type="file" value="upload" placeholder="Upload file..." accept=".jpg" (change)=upload($event) multiple>
     <button type="button" (click)="submit()">Upload</button>
   </div>-->
-
+    <app-menu-system (menuSystemIsClicked)="onMenuSystemIsClicked($event)"></app-menu-system>
     <div class="div-main-container">
-        <app-menu (menuIsClicked)="onMenuIsClicked($event)">
+        <app-menu #compMenu (menuIsClicked)="onMenuIsClicked($event)">
         </app-menu>
-        <div class="div-canvas-container">
+        <div class="div-designpage-container">
             <div #mainDesignPageContainer>
             </div>
         </div>

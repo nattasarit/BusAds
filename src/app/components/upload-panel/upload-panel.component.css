@@ -1,0 +1,21 @@
+.upload-panel-container{
+    display: inline-block;
+}
+
+.upload-container{
+    width: 300px;
+    vertical-align: top;
+}
+
+.display-image-container{
+    vertical-align: top;
+}
+
+.card-image-priority{
+    padding: 5px;
+    display: inline-block;
+}
+
+.mat-radio-label{
+    padding-right: 10px;
+}

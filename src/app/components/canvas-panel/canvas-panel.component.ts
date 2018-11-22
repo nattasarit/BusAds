@@ -61,11 +61,8 @@ export class CanvasPanelComponent implements OnInit {
 
     // BusFrame
     const busBitmap = new createjs.Bitmap('assets/images/1.png');
-    console.log('busBitmap=', busBitmap);
     const ratioX = 500 / busBitmap.image['naturalWidth'];
     const ratioY = 300 / busBitmap.image['naturalWidth'];
-    console.log('ratioX=', ratioX);
-    console.log('ratioY=', ratioY);
     busBitmap.scaleX = 0.5;
     busBitmap.scaleY = 0.5;
     this.mainStage.addChild(busBitmap);
@@ -104,9 +101,9 @@ export class CanvasPanelComponent implements OnInit {
     this.containerProduct = new createjs.Container();
     this.containerProduct.addChild(this.shapeContainerProduct);
 
-    // this.mainStage.addChild(this.containerFrame);
-    // this.mainStage.addChild(this.containerLogo);
-    // this.mainStage.addChild(this.containerProduct);
+    this.mainStage.addChild(this.containerFrame);
+    this.mainStage.addChild(this.containerLogo);
+    this.mainStage.addChild(this.containerProduct);
     this.mainStage.update();
   }
 

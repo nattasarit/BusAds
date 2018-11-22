@@ -1,0 +1,8 @@
+<div class="menu-system-container">
+  <div class="menusystem-buttons-container">
+    <div *ngFor="let menu of menus;" class="menusystem-buttons" (click)="onCLickMenuSystem(menu.name)">
+      <i class="menusystem-buttons-icon {{menu.icon}}"></i>
+      <div>{{menu.displayName}}</div>
+    </div>
+  </div>
+</div>

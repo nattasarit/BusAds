@@ -22,6 +22,13 @@ import { DesignPageComponent } from './components/design-page/design-page.compon
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { UploadPanelComponent } from './components/upload-panel/upload-panel.component';
 import { CanvasPanelComponent } from './components/canvas-panel/canvas-panel.component';
+import { MenuSystemComponent } from './components/menu-system/menu-system.component';
+import { BusTypePanelComponent } from './components/bus-type-panel/bus-type-panel.component';
+import { BusTemplatePanelComponent } from './components/bus-template-panel/bus-template-panel.component';
+import { BusSubtemplatePanelComponent } from './components/bus-subtemplate-panel/bus-subtemplate-panel.component';
+import { ImageWithPriorityComponent } from './core/image-with-priority/image-with-priority.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { ProjectPanelComponent } from './components/project-panel/project-panel.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -43,6 +50,12 @@ const APP_ROUTES: Routes = [
     LoginPageComponent,
     UploadPanelComponent,
     CanvasPanelComponent,
+    MenuSystemComponent,
+    BusTypePanelComponent,
+    BusTemplatePanelComponent,
+    BusSubtemplatePanelComponent,
+    ImageWithPriorityComponent,
+    ProjectPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -69,11 +82,18 @@ const APP_ROUTES: Routes = [
     MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatRadioModule
   ],
   exports: [RouterModule],
   providers: [DbconnectorService, AppService, DrawService],
   bootstrap: [AppComponent],
-  entryComponents: [UploadPanelComponent, CanvasPanelComponent]
+  entryComponents: [UploadPanelComponent,
+                    CanvasPanelComponent,
+                    BusTypePanelComponent,
+                    BusTemplatePanelComponent,
+                    BusSubtemplatePanelComponent,
+                    ImageWithPriorityComponent,
+                    ProjectPanelComponent]
 })
 export class AppModule { }
