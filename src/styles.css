@@ -42,6 +42,11 @@ body{
 
 .mdl-button{
     color: white;
+    background-color: rgb(27, 51, 89);
+}
+
+.mdl-button:hover{
+    background-color: rgb(62, 100, 160);
 }
 
 .ui-carousel-item{

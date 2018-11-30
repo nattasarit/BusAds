@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ImageModel } from '../../model/image.model';
+import { ItemService } from '../../services/item.service';
 
 @Component({
   selector: 'app-upload-panel',
@@ -8,11 +9,15 @@ import { ImageModel } from '../../model/image.model';
 })
 export class UploadPanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private itemService: ItemService) { }
 
   items = [];
 
   ngOnInit() {
+    if (this.itemService.items.length > 0) {
+      this.items = this.itemService.items;
+      this.showImage();
+    }
 
   }
 
@@ -31,6 +36,7 @@ export class UploadPanelComponent implements OnInit {
 
           if (count >= elem.files.length) {
             this.showImage();
+            this.itemService.items = this.items;
           }
         };
         reader.readAsDataURL(file);
@@ -40,6 +46,15 @@ export class UploadPanelComponent implements OnInit {
 
   private showImage() {
     console.log('this.items=', this.items);
+  }
+
+  submit() {
+    console.log('items = ', this.items);
+  }
+
+  clear() {
+    this.items = [];
+    this.itemService.items = [];
   }
 
 }

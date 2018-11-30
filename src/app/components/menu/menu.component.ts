@@ -32,6 +32,11 @@ export class MenuComponent implements OnInit {
       name: 'canvas',
       displayName: 'Canvas',
       icon: 'fas fa-drafting-compass'
+    },
+    {
+      name: 'display-template',
+      displayName: 'Template',
+      icon: 'fas fa-bus'
     }
   ];
 

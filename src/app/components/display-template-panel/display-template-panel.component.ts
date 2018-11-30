@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 import { AppService, ResponseType } from '../../services/app.service';
-import { DrawService, HWXY, XY, DrawMode} from '../../services/draw.service';
+import { DrawService, HWXY, XY, DrawMode } from '../../services/draw.service';
 import { TemplateService } from '../../services/template.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MatSelect } from '@angular/material/select';
@@ -12,16 +12,15 @@ import { ContextModel } from '../../model/context.model';
 import * as createjs from 'createjs-module';
 
 @Component({
-  selector: 'app-canvas-panel',
-  templateUrl: './canvas-panel.component.html',
-  styleUrls: ['./canvas-panel.component.css']
+  selector: 'app-display-template-panel',
+  templateUrl: './display-template-panel.component.html',
+  styleUrls: ['./display-template-panel.component.css']
 })
-export class CanvasPanelComponent implements OnInit {
-  constructor(public appService: AppService,
-              public drawService: DrawService,
-              public templateService: TemplateService) { }
+export class DisplayTemplatePanelComponent implements OnInit {
 
-  @ViewChild('selectorBusRoute') selectorBusRoute: MatSelect;
+  constructor(public appService: AppService,
+    public drawService: DrawService,
+    public templateService: TemplateService) { }
 
   panelOpenState = false;
 
@@ -34,7 +33,7 @@ export class CanvasPanelComponent implements OnInit {
   private shapeContainerProduct = null;
 
   ngOnInit() {
-    this.mainStage = new createjs.Stage('divCanvasContainer');
+    this.mainStage = new createjs.Stage('divCanvasContainer2');
 
     this.initBusAdsFrame();
     this.mainStage.update();
@@ -62,12 +61,10 @@ export class CanvasPanelComponent implements OnInit {
     // busBitmap.visible = false;
     // this.mainStage.update();
 
-    // 1Template
-    const template1 = this.templateService.sampleTemplate1;
-
-    let gapX = 20;
+    let gapX = 120;
     let gapY = 20;
-    const listTemplate = this.templateService.getMatchedTemplateList();
+    const listTemplate = this.templateService.getAllTemplateList();
+    console.log('listTemplate=', listTemplate);
     listTemplate.forEach(template => {
       this.containerFrame = new createjs.Container();
       const offset: XY = new XY();
@@ -78,7 +75,7 @@ export class CanvasPanelComponent implements OnInit {
       console.log('offset.y = ', offset.y);
       this.drawService.drawTemplate(this.containerFrame, template, DrawMode.modeFrameOnly, offset);
 
-      gapX = gapX + 350;
+      gapX = gapX + 1500;
 
       const test = new createjs.Container();
       const newOffset: XY = new XY();
@@ -86,30 +83,19 @@ export class CanvasPanelComponent implements OnInit {
       newOffset.y = gapY;
       console.log('newOffset.x = ', newOffset.x);
       console.log('newOffset.y = ', newOffset.y);
-      this.drawService.drawTemplate(test, template, DrawMode.modeCombine, newOffset);
+      this.drawService.drawTemplate(test, template, DrawMode.modeFrameOnly, newOffset);
 
       this.mainStage.addChild(this.containerFrame);
       this.mainStage.addChild(test);
       this.mainStage.update();
 
-      gapX = 20;
+      gapX = 120;
       gapY = gapY + 250;
     });
 
 
   }
 
-  private makeDraggable(o) {
-    let offset = null;
-    o.addEventListener('mousedown', (evt) => {
-      offset = { x: evt.target.x - evt.stageX, y: evt.target.y - evt.stageY };
-    });
-    o.addEventListener('pressmove', (evt) => {
-      evt.currentTarget.x = evt.stageX + offset.x;
-      evt.currentTarget.y = evt.stageY + offset.y;
-      o.getStage().update();
-    });
-  }
 
   getFilteringSelectValue() {
     if (1 === 1) {
@@ -121,8 +107,8 @@ export class CanvasPanelComponent implements OnInit {
 
   }
 
+
   public submit() {
 
   }
-
 }

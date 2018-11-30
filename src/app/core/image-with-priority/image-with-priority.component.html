@@ -1,13 +1,19 @@
 <div class="div-imagepriority-container">
-  <mat-card class="example-card">
+  <mat-card class="img-priority-card">
     <mat-card-header>
       <mat-card-subtitle>Image</mat-card-subtitle>
     </mat-card-header>
-    <img width=300 [src]="image.image">
+    <div>
+      <img width=300 height=260 [src]="image.image" class="cover">
+    </div>
+    <!--<div style="background-image:url({{image.image}})"></div>-->
     <mat-card-actions>
-      <mat-radio-button class="radio-button-priority" *ngFor="let priority of priorities">
-        {{priority}}
-      </mat-radio-button>
+      <mat-radio-group [(ngModel)]="selectedPriority">
+        <mat-radio-button class="radio-button-priority" *ngFor="let priority of priorities" value="{{priority}}"
+          (change)="radioChange($event)">
+          {{priority}}
+        </mat-radio-button>
+      </mat-radio-group>
     </mat-card-actions>
   </mat-card>
 </div>

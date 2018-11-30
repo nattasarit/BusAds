@@ -29,6 +29,7 @@ import { BusSubtemplatePanelComponent } from './components/bus-subtemplate-panel
 import { ImageWithPriorityComponent } from './core/image-with-priority/image-with-priority.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { ProjectPanelComponent } from './components/project-panel/project-panel.component';
+import { DisplayTemplatePanelComponent } from './components/display-template-panel/display-template-panel.component';
 
 const APP_ROUTES: Routes = [
   {
@@ -55,7 +56,8 @@ const APP_ROUTES: Routes = [
     BusTemplatePanelComponent,
     BusSubtemplatePanelComponent,
     ImageWithPriorityComponent,
-    ProjectPanelComponent
+    ProjectPanelComponent,
+    DisplayTemplatePanelComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +96,7 @@ const APP_ROUTES: Routes = [
                     BusTemplatePanelComponent,
                     BusSubtemplatePanelComponent,
                     ImageWithPriorityComponent,
-                    ProjectPanelComponent]
+                    ProjectPanelComponent,
+                    DisplayTemplatePanelComponent]
 })
 export class AppModule { }

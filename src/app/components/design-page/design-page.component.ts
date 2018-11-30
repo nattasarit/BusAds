@@ -12,6 +12,7 @@ import { BusTypePanelComponent } from '../bus-type-panel/bus-type-panel.componen
 import { BusTemplatePanelComponent } from '../bus-template-panel/bus-template-panel.component';
 import { BusSubtemplatePanelComponent } from '../bus-subtemplate-panel/bus-subtemplate-panel.component';
 import { ProjectPanelComponent } from '../project-panel/project-panel.component';
+import { DisplayTemplatePanelComponent } from '../display-template-panel/display-template-panel.component';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class DesignPageComponent implements OnInit {
   componenBusTemplatePanelFactory = null;
   componenBusSubTemplatePanelFactory = null;
   componenProjectPanelFactory = null;
+  componenDisplayTemplatePanelFactory = null;
   private currentComponentRef = null;
 
   ngOnInit() {
@@ -78,10 +80,19 @@ export class DesignPageComponent implements OnInit {
         }
         this.initComponent(this.componenBusSubTemplatePanelFactory);
         break;
-      } default: {
+      } case 'display-template': {
+        if (this.componenDisplayTemplatePanelFactory === null) {
+          this.componenDisplayTemplatePanelFactory = this.componentFactoryResolver.resolveComponentFactory(DisplayTemplatePanelComponent);
+        }
+        this.initComponent(this.componenDisplayTemplatePanelFactory);
+        break;
+      }default: {
         console.log('other case');
         break;
       }
+      
+
+
     }
   }
 

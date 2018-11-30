@@ -1,57 +1,31 @@
 <?php
-header("Content-Type: application/json; charset=UTF-8");
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+$servername = "sql104.epizy.com";
+$username = "epiz_22539278";
+$password = "P@ssw0rd";
+$dbname = "epiz_22539278_BUSADS";
 
-//$mysqli = new mysqli("sql12.freemysqlhosting.net", "sql12238501", "JXLue2Ylz2", "sql12238501");
-//$mysqli = new mysqli("127.0.0.1", "root", "1234", "sys");
-$outp = "Hello";
-echo($outp);
 
-/*
-$result = $conn->query("SELECT CompanyName, City, Country FROM Customers");
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
-$outp = "";
-while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
-    if ($outp != "") {$outp .= ",";}
-    $outp .= '{"Name":"'  . $rs["CompanyName"] . '",';
-    $outp .= '"City":"'   . $rs["City"]        . '",';
-    $outp .= '"Country":"'. $rs["Country"]     . '"}';
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
-$outp ='{"records":['.$outp.']}';
-*/
 
-/* check connection */
-/*
-if ($mysqli->connect_errno) {
-    printf("Connect failed: %s\n", $mysqli->connect_error);
-    exit();
-}
-*/
 
-/* check if server is alive */
-/*
-if ($mysqli->ping()) {
-    printf ("Our connection is ok!\n");
+
+$sql = "SELECT * FROM BUS_TEMPLATE";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+    }
 } else {
-    printf ("Error: %s\n", $mysqli->error);
+    echo "0 results";
 }
-*/
 
-/* close connection */
-//$mysqli->close();
-
-/*
-if($conn) {
-    $result = $conn->query("SELECT 1 + 1 AS solution");
-
-    $outp ='{"records":['.$result.']}';
-    $conn->close();
-}
-else{
-    echo "<p>Unable to connect to database</p>";
-}
-echo($outp);
-*/
+mysqli_close($conn);
 ?>

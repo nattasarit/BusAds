@@ -9,12 +9,20 @@ import { ImageModel } from '../../model/image.model';
 export class ImageWithPriorityComponent implements OnInit {
 
   constructor() { }
+  selectedPriority: string;
 
   @Input()
-  image: ImageModel;
+  image: ImageModel = null;
   priorities = ['A', 'B', 'C'];
 
   ngOnInit() {
+    if (this.image !== null) {
+      this.selectedPriority = this.image.priority;
+    }
+  }
+
+  radioChange(event) {
+    this.image.priority = event.value;
   }
 
 }

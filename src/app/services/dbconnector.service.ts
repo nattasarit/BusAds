@@ -10,18 +10,37 @@ export class DbconnectorService {
   constructor(public appService: AppService) { }
 
   public test(): Observable<any> {
-    let domain = window.location.host;
-    console.log("domain=",domain);
-    //return this.appService.reqUrl("http://localhost/busadsBackend/service.php", ResponseType.json).pipe(
-    return this.appService.reqUrl("http://localhost:8080/busads/service.php", ResponseType.json).pipe(
+    const domain = window.location;
+    console.log('domain=', domain);
+    // return this.appService.reqUrl("http://localhost/busadsBackend/service.php", ResponseType.json).pipe(
+
+    //  const urlService = 'http://busads.epizy.com/assets/back-end/service.php';
+    const urlService = '/busads/assets/back-end/service.php';
+
+    /*
+    return this.appService.requestPHP(urlService).pipe(
       map(response => {
-        console.log("response=",response);
+        console.log('response=', response);
         if (response.success) {
-          
+
         }
 
         return response;
       })
     );
+    */
+
+
+    return this.appService.reqUrl(urlService).pipe(
+      map(response => {
+        console.log('response=', response);
+        if (response.success) {
+
+        }
+
+        return response;
+      })
+    );
+
   }
 }

@@ -4,12 +4,12 @@
     <label class="custom-file-upload mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Browse
       <input type="file" multiple value="upload" placeholder="Upload" accept="image/png, image/jpeg" (change)=upload($event)>
     </label>
-    <!--<button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="submit()">Upload</button>-->
+    <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="clear()">Clear</button>
   </div>
   <div class="display-image-container">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="15px">
       <app-image-with-priority class="card-image-priority" *ngFor="let item of items;" [image]="item">
       </app-image-with-priority>
-      <!--<div *ngFor="let item of items;">AAA
-      </div>-->
+    </div>
   </div>
 </div>

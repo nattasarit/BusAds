@@ -15,54 +15,64 @@ export class AppService {
 
   private _reqUrl(url: string, params: any, responseType: ResponseType = ResponseType.text): Observable<any> {
     let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET' });
-    let options = new RequestOptions({ headers: headers });
+    const options = new RequestOptions({ headers: headers });
 
-    let paramsToSend = this.softCopyJSON(params);
-    let domainName = this.getDomainName(url);
-    if (domainName.toLowerCase() == window.location.host.toLowerCase())
+    const paramsToSend = this.softCopyJSON(params);
+    const domainName = this.getDomainName(url);
+    if (domainName.toLowerCase() === window.location.host.toLowerCase()) {
       paramsToSend['CSRF_TOKEN'] = this.getCookie('CSRF_TOKEN');
+    }
 
-    let response = this.http.post(url, paramsToSend, options);
+    const response = this.http.post(url, paramsToSend, options);
 
-    if (responseType == ResponseType.json)
+    if (responseType === ResponseType.json) {
       return response.pipe(map((res: Response) => res.json()));
-    else if (responseType == ResponseType.arrayBuffer)
+    } else if (responseType === ResponseType.arrayBuffer) {
       return response.pipe(map((res: Response) => res.arrayBuffer()));
-    else
+    } else {
       return response.pipe(map((res: Response) => res.text()));
+    }
   }
 
   softCopyJSON(data: any): object {
-    let cloned: object = {};
-    for (let key in data)
+    const cloned: object = {};
+    for (const key in data) {
       cloned[key] = data[key];
-
+    }
     return cloned;
   }
 
   getDomainName(url: string): string {
-    let domainNameStartIndex = url.indexOf('//');
+    const domainNameStartIndex = url.indexOf('//');
     let domainName = '';
 
-    if (domainNameStartIndex >= 0)
+    if (domainNameStartIndex >= 0) {
       domainName = url.substring(domainNameStartIndex + 2);
-    else
+    } else {
       domainName = url;
+    }
 
-    let domainNameEndIndex = domainName.indexOf('/');
+    const domainNameEndIndex = domainName.indexOf('/');
 
-    if (domainNameEndIndex >= 0)
+    if (domainNameEndIndex >= 0) {
       domainName = domainName.substring(0, domainNameEndIndex);
+    }
 
     return domainName;
   }
-  
+
   getCookie(name): string {
-    let value = '; ' + document.cookie;
-    let parts = value.split('; ' + name + '=');
-    if (parts.length == 2) return parts.pop().split(';').shift();
+    const value = '; ' + document.cookie;
+    const parts = value.split('; ' + name + '=');
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    }
   }
-  
+
+  requestPHP(url: string): Observable<any> {
+    return this.http.post(url, {});
+  }
+
 }
 
 export enum ResponseType {

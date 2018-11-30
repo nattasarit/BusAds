@@ -6,9 +6,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "ng build --delete-output-path=false --output-path='../webapp' --base-href='/busads'",
+    "debug": "ng build --delete-output-path=false --output-path='../webapp' --base-href='/busads' --watch",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "epizy": "ng build --delete-output-path=false --output-path='../webapp' --base-href='http://busads.epizy.com'" 
   },
   "private": true,
   "dependencies": {

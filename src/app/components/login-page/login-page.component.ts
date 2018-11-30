@@ -15,16 +15,15 @@ export class LoginPageComponent implements OnInit {
 
 
   ngOnInit() {
-
-  }
-
-  login() {
-    //  this.dbconnector.test().subscribe(response => {
-    //   console.log("response = ",response);
+    // this.dbconnector.test().subscribe(response => {
     //   if (response.success) {
 
     //   }
     // });
+  }
+
+  login() {
+
 
   }
 }
