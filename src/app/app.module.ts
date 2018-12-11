@@ -9,7 +9,8 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { DbconnectorService } from './services/dbconnector.service';
 import { AppService } from './services/app.service';
 import { DrawService } from './services/draw.service';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule  } from '@angular/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { UICarouselModule } from 'ui-carousel';
 import { UploadSelectorComponent } from './core/upload-selector/upload-selector.component';
@@ -78,6 +79,9 @@ const APP_ROUTES: Routes = [
     MatInputModule,
     MatFormFieldModule,
     HttpModule,
+    HttpClientModule,
+    JsonpModule,
+    HttpClientJsonpModule,
     MatCardModule,
     UICarouselModule,
     MatDialogModule,

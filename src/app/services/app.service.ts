@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response, Jsonp  } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class AppService {
-
-  constructor(private http: Http) { }
+  times = 0;
+  constructor(private http: Http,
+              private jsonp: Jsonp,
+              private httpClient: HttpClient) { }
 
   public reqUrl(url: string, params: any = {}, responseType: ResponseType = ResponseType.text): Observable<any> {
     return this._reqUrl(url, params, responseType);
@@ -70,7 +73,26 @@ export class AppService {
   }
 
   requestPHP(url: string): Observable<any> {
-    return this.http.post(url, {});
+    const requestOptions = new RequestOptions();
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
+    requestOptions.headers = headers;
+    return this.http.post(url, requestOptions);
+  }
+
+  requestJsonp(url): Observable<any> {
+      // options.params is an HttpParams object
+      return this.jsonp.request(url);
+  }
+
+  requestJsonp2(url) {
+    const params = new URLSearchParams();
+    // params.set('search', term); // the user search value
+    params.set('action', 'opensearch');
+    params.set('format', 'json');
+    params.set('callback', 'BANKTEST');
+    this.times = this.times + 1;
+    // TODO: Add error handling
+    return this.jsonp.get(url, { search: params });
   }
 
 }
