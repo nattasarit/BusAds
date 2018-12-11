@@ -76,7 +76,7 @@ export class AppService {
     const requestOptions = new RequestOptions();
     let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
     requestOptions.headers = headers;
-    return this.http.post(url, requestOptions);
+    return this.http.get(url, requestOptions);
   }
 
   requestJsonp(url): Observable<any> {

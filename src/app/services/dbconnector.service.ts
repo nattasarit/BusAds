@@ -21,17 +21,16 @@ export class DbconnectorService {
     // return this.appService.reqUrl("http://localhost/busadsBackend/service.php", ResponseType.json).pipe(
 
     // const urlService = 'http://busads.epizy.com/assets/back-end/service.php';
-    let urlService = domain.origin + '/assets/back-end/service.php';
+    let urlService = domain.href + 'assets/back-end/service.php';
     // fix path PHP
-    urlService = 'http://busads.epizy.com/assets/back-end/service.php?callback=BANKTEST';
+    //urlService = 'http://busads.epizy.com/assets/back-end/service.php?callback=BANKTEST';
 
 
 
-    return this.appService.requestJsonp(urlService).pipe(
+    return this.appService.requestPHP(urlService).pipe(
       map(response => {
         // response.map(response2 => <string[]> response2.json()[1]);
-        const _gvariable = window['_gvariable'];
-        console.log('_gvariable=', _gvariable);
+        console.log('response=', response);
         return response;
       })
     );

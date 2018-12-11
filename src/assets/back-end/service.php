@@ -3,10 +3,10 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
-$servername = "sql104.epizy.com";
-$username = "epiz_22539278";
-$password = "ahYh0mX8Dz4";
-$dbname = "epiz_22539278_DATABUSADS";
+$servername = "http://localhost:3306/";
+$username = "root";
+$password = "root";
+$dbname = "BUSADS";
 
 
 // Create connection
@@ -27,9 +27,9 @@ if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
         // echo "__ng_jsonp__.__req0.finished({BUS_TEM_ID: " . $row["BUS_TEM_ID"]. ", BUS_TEM_NAME: " . $row["BUS_TEM_NAME"]. " " . $row["BUS_TEM_COMMANDLIST"]. "})";
     }
-    echo "BANKTEST({BUS_TEM_ID: 'AAA'})";
+    echo "{BUS_TEM_ID: 'AAA'}";
 } else {
-    echo "BANKTEST({BUS_TEM_ID: 'results'})";
+    echo "{BUS_TEM_ID: 'results'}";
 }
 
 mysqli_close($conn);  
