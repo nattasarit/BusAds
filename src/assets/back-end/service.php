@@ -3,10 +3,10 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
-$servername = "http://localhost:3306/";
+$servername = "127.0.0.1:3306";
 $username = "root";
 $password = "root";
-$dbname = "BUSADS";
+$dbname = "busads";
 
 
 // Create connection
