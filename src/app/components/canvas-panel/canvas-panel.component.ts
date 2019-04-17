@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 import { AppService, ResponseType } from '../../services/app.service';
-import { DrawService, HWXY, XY, DrawMode} from '../../services/draw.service';
+import { DrawService, HWXY, XY, DrawMode } from '../../services/draw.service';
 import { TemplateService } from '../../services/template.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MatSelect } from '@angular/material/select';
@@ -18,15 +18,15 @@ import * as createjs from 'createjs-module';
 })
 export class CanvasPanelComponent implements OnInit {
   constructor(public appService: AppService,
-              public drawService: DrawService,
-              public templateService: TemplateService) { }
+    public drawService: DrawService,
+    public templateService: TemplateService) { }
 
   @ViewChild('selectorBusRoute') selectorBusRoute: MatSelect;
 
   panelOpenState = false;
 
   private mainStage = null;
-  private containerFrame = null;
+  //private containerFrame = null;
   private containerLogo = null;
   private containerProduct = null;
   private shapeContainerFrame = null;
@@ -63,37 +63,44 @@ export class CanvasPanelComponent implements OnInit {
     // this.mainStage.update();
 
     // 1Template
-    const template1 = this.templateService.sampleTemplate1;
+    // const template1 = this.templateService.sampleTemplate1;
 
-    let gapX = 20;
+    let gapX = 15;
     let gapY = 20;
-    const listTemplate = this.templateService.getMatchedTemplateList();
-    listTemplate.forEach(template => {
-      this.containerFrame = new createjs.Container();
-      const offset: XY = new XY();
-      offset.x = gapX;
-      offset.y = gapY;
+    //const listTemplate = this.templateService.getMatchedTemplateList();
+    this.templateService.getMatchedTemplateList().subscribe(listTemplate => {
 
-      console.log('offset.x = ', offset.x);
-      console.log('offset.y = ', offset.y);
-      this.drawService.drawTemplate(this.containerFrame, template, DrawMode.modeFrameOnly, offset);
+      listTemplate.forEach(template => {
+        const containerFrame = new createjs.Container();
+        const offset: XY = new XY();
+        offset.x = gapX;
+        offset.y = gapY;
+        this.drawService.drawTemplate(containerFrame, template, DrawMode.modeFrameOnly, offset);
 
-      gapX = gapX + 350;
+        gapX = gapX + 340;
 
-      const test = new createjs.Container();
-      const newOffset: XY = new XY();
-      newOffset.x = gapX;
-      newOffset.y = gapY;
-      console.log('newOffset.x = ', newOffset.x);
-      console.log('newOffset.y = ', newOffset.y);
-      this.drawService.drawTemplate(test, template, DrawMode.modeCombine, newOffset);
+        const containerFrame2 = new createjs.Container();
+        const offset2: XY = new XY();
+        offset2.x = gapX;
+        offset2.y = gapY;
+        this.drawService.drawTemplate(containerFrame2, template, DrawMode.modeCombine, offset2);
 
-      this.mainStage.addChild(this.containerFrame);
-      this.mainStage.addChild(test);
-      this.mainStage.update();
+        gapX = gapX + 340;
 
-      gapX = 20;
-      gapY = gapY + 250;
+        const containerFrame3 = new createjs.Container();
+        const offset3: XY = new XY();
+        offset3.x = gapX;
+        offset3.y = gapY;
+        this.drawService.drawTemplate(containerFrame3, template, DrawMode.modeImageOnly, offset3);
+
+        this.mainStage.addChild(containerFrame);
+        this.mainStage.addChild(containerFrame2);
+        this.mainStage.addChild(containerFrame3);
+        this.mainStage.update();
+
+        gapX = 15;
+        gapY = gapY + 250;
+      });
     });
 
 

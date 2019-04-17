@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response, Jsonp  } from '@angular/http';
+import { Http, Headers, RequestOptions, Response, Jsonp, URLSearchParams } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
@@ -72,10 +72,13 @@ export class AppService {
     }
   }
 
-  requestPHP(url: string): Observable<any> {
+  requestPHP(url: string, method: string, params: string): Observable<any> {
     const requestOptions = new RequestOptions();
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
     requestOptions.headers = headers;
+
+    url = url + "?METHOD=" + method + "&" + params;
+
     return this.http.get(url, requestOptions);
   }
 

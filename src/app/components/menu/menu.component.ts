@@ -16,6 +16,7 @@ export class MenuComponent implements OnInit {
     this.initMenu(system);
   }
   menus = [];
+  selectedMenu = null;
 
   dataSysDesign = [
     {
@@ -50,11 +51,6 @@ export class MenuComponent implements OnInit {
       name: 'bus-template',
       displayName: 'Bus Template',
       icon: 'fas fa-drafting-compass'
-    },
-    {
-      name: 'bus-subtemplate',
-      displayName: 'Bus Subtemplate',
-      icon: 'fas fa-drafting-compass'
     }
   ];
 
@@ -66,15 +62,18 @@ export class MenuComponent implements OnInit {
   }
 
   initMenu(system) {
+    console.log("init menu =", system);
     let menuList = null;
+    console.log("init menu =", system);
+
     switch (system) {
       case 'design': {
         menuList = this.dataSysDesign;
-        this.onCLickMenu(this.dataSysDesign[0].name);
+        this.onCLickMenu(this.dataSysDesign[0]);
         break;
       } case 'add-template': {
         menuList = this.dataSysAddTemplate;
-        this.onCLickMenu(this.dataSysAddTemplate[0].name);
+        this.onCLickMenu(this.dataSysAddTemplate[0]);
         break;
       } default: {
         menuList = [];
@@ -93,8 +92,13 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  onCLickMenu(response) {
-    this.menuIsClicked.emit(response);
+  onCLickMenu(menu) {
+    // event.target.classList.add('class3'); // To ADD
+    // event.target.classList.remove('class1'); // To Remove
+    // event.target.classList.contains('class2'); // To check
+    // event.target.classList.toggle('class4'); // To toggle
+    this.selectedMenu = menu;
+    this.menuIsClicked.emit(menu.name);
   }
 
 }

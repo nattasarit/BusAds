@@ -13,7 +13,11 @@ export class ImageWithPriorityComponent implements OnInit {
 
   @Input()
   image: ImageModel = null;
-  priorities = ['A', 'B', 'C'];
+  priorities = [
+    {code:'A',desc:'ใหญ่'},
+    {code:'B',desc:'กลาง'}, 
+    {code:'C',desc:'เล็ก'}
+  ];
 
   ngOnInit() {
     if (this.image !== null) {

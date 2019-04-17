@@ -1,7 +1,7 @@
-<div class="page-splash" style="display: flex;">
-    <h3 class="header">ซอฟต์แวร์ออกแบบสื่อโฆษณาติดข้างรถโดยสารประจำทาง</h3>
-    <!--<h3 class="logo">Test Angular</h3>-->
-    <div>
+<div class="bg-login-page" style="display: flex;">
+  <div class="login-cover">
+    <div class="login-header">ซอฟต์แวร์ออกแบบสื่อโฆษณาติดข้างรถโดยสารประจำทาง</div>
+    <div class="login-panel">
       <div class="example-container">
         <mat-form-field style="display: inline;">
           <input matInput placeholder="Username">
@@ -11,12 +11,13 @@
           <input matInput placeholder="Password">
         </mat-form-field>
       </div>
-      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="login()" [routerLink]="['design']">
+      <button style="right: -38px;" mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="login()" [routerLink]="['design']">
         <i class="material-icons">account_circle</i> Sign in
         <span class="mdl-button__ripple-container">
           <span class="mdl-ripple is-animating" style="width: 440.432px; height: 440.432px; transform: translate(-50%, -50%) translate(190px, 31px);">
           </span>
         </span>
       </button>
+    </div>
     </div>
   </div>

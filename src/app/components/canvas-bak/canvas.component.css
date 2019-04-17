@@ -10,20 +10,6 @@
     bottom: 0;
 }
 
-.div-left-menu{
-    margin-left: 20px;
-    padding: 10px;
-    width: 350px;
-    display: inline-block;
-    height: 100%;
-    vertical-align: top;
-    overflow-y: hidden;
-}
-
-.div-left-menu .mat-card{
-    margin-bottom: 10px;
-}
-
 .div-canvas-container{
     padding-left: 15px;
     position: absolute;

@@ -13,15 +13,11 @@ export class LoginPageComponent implements OnInit {
     // auth.handleAuthentication();
   }
 
-
   ngOnInit() {
-    this.dbconnector.test().subscribe(response => {
 
-    });
   }
 
   login() {
-
 
   }
 }

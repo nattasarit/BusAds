@@ -126,7 +126,7 @@ export class DrawService {
     container.mask = shapeContainerFrame;
     container.addChild(shapeContainerFrame);
 
-
+    
     const groupObjectA = [];
     const groupObjectB = [];
     const groupObjectC = [];
@@ -148,19 +148,15 @@ export class DrawService {
         }
       });
     }
-
+    
 
     this._drawTemplate(container, template.AFrameCommand, drawMode, offset, 'red', groupObjectA);
     this._drawTemplate(container, template.BFrameCommand, drawMode, offset, 'green', groupObjectB);
     this._drawTemplate(container, template.CFrameCommand, drawMode, offset, 'blue', groupObjectC);
   }
 
-  _drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject) {
-    console.log("_drawTemplate groupObject=", groupObject);
-    //////////////////////////////////////////////
+  _drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject){
     if (frameCommand.length > 0) {
-      let maxGroupObject = groupObject.length;
-      let count = 0;
       frameCommand.forEach(eachFrameCommand => {
         const shapeContainer = new createjs.Shape();
         if (drawMode === DrawMode.modeImageOnly) {
@@ -170,18 +166,8 @@ export class DrawService {
         }
         this.drawFunction(shapeContainer.graphics, eachFrameCommand, offset);
         container.addChild(shapeContainer);
-        if (drawMode !== DrawMode.modeFrameOnly) {
-          if (count < maxGroupObject) {
-            let image = groupObject[count].image;
-            this.addImage(image, container, shapeContainer);
-            count++;
-          }
-        }
+        this.addImageToTemplate(container, shapeContainer, groupObject, drawMode, offset);
       });
-
-      if(maxGroupObject > frameCommand.length){
-        //this._drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject);
-      }
     }
   }
 
@@ -240,8 +226,6 @@ export class DrawService {
   addImageToTemplate(container, shapeOfFrame, groupObject, drawMode: DrawMode, mainOffset?: XY) {
     let image = null;
     console.log("@@@@@@@@@@@@ groupObject=", groupObject);
-
-    /*
     if (groupObject.length > 0) {
       if (groupObject.length === 1) {
         image = groupObject[0].image;
@@ -398,19 +382,18 @@ export class DrawService {
 
       }
     }
-    */
   }
 
   addImage(image, container, shapeOfFrame, mainRatio?, mainOffsetY?) {
     if (image !== null) {
       const shapeHWXY: HWXY = this.getHWXYrect(shapeOfFrame.graphics);
-
+      
       const bitmap = new createjs.Bitmap(image);
       const naturalWidth = bitmap.image['naturalWidth'];
       const naturalHeight = bitmap.image['naturalHeight'];
 
       let ratio = this.getRatio(shapeHWXY.w, naturalWidth, shapeHWXY.h, naturalHeight);
-
+      
       /*
       const ratioX = shapeHWXY.w / naturalWidth;
       const ratioY = shapeHWXY.h / naturalHeight;
@@ -457,35 +440,35 @@ export class DrawService {
   }
 
   getBounds(obj) {
-    var bounds = { x: Infinity, y: Infinity, width: 0, height: 0 };
-    if (obj instanceof createjs.Container) {
-      var children = obj.children, l = children.length, cbounds, c;
-      for (c = 0; c < l; c++) {
+    var bounds={x:Infinity,y:Infinity,width:0,height:0};
+    if ( obj instanceof createjs.Container ) {
+      var children = obj.children, l=children.length, cbounds, c;
+      for ( c = 0; c < l; c++ ) {
         cbounds = this.getBounds(children[c]);
-        if (cbounds.x < bounds.x) bounds.x = cbounds.x;
-        if (cbounds.y < bounds.y) bounds.y = cbounds.y;
-        if (cbounds.width < bounds.width) bounds.width = cbounds.width;
-        if (cbounds.height < bounds.height) bounds.height = cbounds.height;
+        if ( cbounds.x < bounds.x ) bounds.x = cbounds.x;
+        if ( cbounds.y < bounds.y ) bounds.y = cbounds.y;
+        if ( cbounds.width < bounds.width ) bounds.width = cbounds.width;
+        if ( cbounds.height < bounds.height ) bounds.height = cbounds.height;
       }
     } else {
-      var gp, gp2, gp3, gp4, imgr;
-      if (obj instanceof createjs.Bitmap) {
+      var gp,gp2,gp3,gp4,imgr;
+      if ( obj instanceof createjs.Bitmap ) {
         imgr = obj.image;
       } else {
         return bounds;
       }
-
-      gp = obj.localToGlobal(0, 0);
-      gp2 = obj.localToGlobal(imgr.width, imgr.height);
-      gp3 = obj.localToGlobal(imgr.width, 0);
-      gp4 = obj.localToGlobal(0, imgr.height);
-
-      bounds.x = Math.min(Math.min(Math.min(gp.x, gp2.x), gp3.x), gp4.x);
-      bounds.y = Math.min(Math.min(Math.min(gp.y, gp2.y), gp3.y), gp4.y);
-      bounds.width = Math.max(Math.max(Math.max(gp.x, gp2.x), gp3.x), gp4.x) - bounds.x;
-      bounds.height = Math.max(Math.max(Math.max(gp.y, gp2.y), gp3.y), gp4.y) - bounds.y;
+   
+      gp = obj.localToGlobal(0,0);
+      gp2 = obj.localToGlobal(imgr.width,imgr.height);
+      gp3 = obj.localToGlobal(imgr.width,0);
+      gp4 = obj.localToGlobal(0,imgr.height);
+   
+      bounds.x = Math.min(Math.min(Math.min(gp.x,gp2.x),gp3.x),gp4.x);
+      bounds.y = Math.min(Math.min(Math.min(gp.y,gp2.y),gp3.y),gp4.y);
+      bounds.width = Math.max(Math.max(Math.max(gp.x,gp2.x),gp3.x),gp4.x) - bounds.x;
+      bounds.height = Math.max(Math.max(Math.max(gp.y,gp2.y),gp3.y),gp4.y) - bounds.y;
     }
-
+   
     return bounds;
   }
 }

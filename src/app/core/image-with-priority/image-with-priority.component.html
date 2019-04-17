@@ -9,9 +9,9 @@
     <!--<div style="background-image:url({{image.image}})"></div>-->
     <mat-card-actions>
       <mat-radio-group [(ngModel)]="selectedPriority">
-        <mat-radio-button class="radio-button-priority" *ngFor="let priority of priorities" value="{{priority}}"
+        <mat-radio-button class="radio-button-priority" *ngFor="let priority of priorities" value="{{priority.code}}"
           (change)="radioChange($event)">
-          {{priority}}
+          {{priority.desc}}
         </mat-radio-button>
       </mat-radio-group>
     </mat-card-actions>

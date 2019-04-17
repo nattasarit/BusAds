@@ -1,5 +1,6 @@
 <div class="div-left-menu">
-  <div *ngFor="let menu of menus;" class="menu-button" (click)="onCLickMenu(menu.name)">
+  <div *ngFor="let menu of menus;" class="menu-button"  (click)="onCLickMenu(menu)"
+       [ngClass]="(selectedMenu == menu) ? 'menu-primary' : 'menu-default'">
       <i class="menu-icon {{menu.icon}}"></i>
       <div>{{menu.displayName}}</div>
   </div>

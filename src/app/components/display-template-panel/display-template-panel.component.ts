@@ -46,53 +46,36 @@ export class DisplayTemplatePanelComponent implements OnInit {
   private initBusAdsFrame() {
     createjs.Ticker.addEventListener('tick', (evt) => this.handleTick(evt));
 
-    // Cal
-    // const topLeft = this.drawService.getCornerTopLeft(this.shapeContainerFrame.graphics.instructions);
-    // const topRight = this.drawService.getCornerTopRight(this.shapeContainerFrame.graphics.instructions);
-    // const width: number = this.drawService.calWidth(topLeft, topRight);
-
-    // BusFrame
-    // const busBitmap = new createjs.Bitmap('assets/images/1.png');
-    // const ratioX = 500 / busBitmap.image['naturalWidth'];
-    // const ratioY = 300 / busBitmap.image['naturalWidth'];
-    // busBitmap.scaleX = 0.5;
-    // busBitmap.scaleY = 0.5;
-    // this.mainStage.addChild(busBitmap);
-    // busBitmap.visible = false;
-    // this.mainStage.update();
-
     let gapX = 120;
     let gapY = 20;
-    const listTemplate = this.templateService.getAllTemplateList();
-    console.log('listTemplate=', listTemplate);
-    listTemplate.forEach(template => {
-      this.containerFrame = new createjs.Container();
-      const offset: XY = new XY();
-      offset.x = gapX;
-      offset.y = gapY;
+    //const listTemplate = this.templateService.getAllTemplateList();
 
-      console.log('offset.x = ', offset.x);
-      console.log('offset.y = ', offset.y);
-      this.drawService.drawTemplate(this.containerFrame, template, DrawMode.modeFrameOnly, offset);
-
-      gapX = gapX + 1500;
-
-      const test = new createjs.Container();
-      const newOffset: XY = new XY();
-      newOffset.x = gapX;
-      newOffset.y = gapY;
-      console.log('newOffset.x = ', newOffset.x);
-      console.log('newOffset.y = ', newOffset.y);
-      this.drawService.drawTemplate(test, template, DrawMode.modeFrameOnly, newOffset);
-
-      this.mainStage.addChild(this.containerFrame);
-      this.mainStage.addChild(test);
-      this.mainStage.update();
-
-      gapX = 120;
-      gapY = gapY + 250;
+    this.templateService.getAllTemplateList().subscribe(listTemplate => {
+      console.log('listTemplate=', listTemplate);
+      listTemplate.forEach(template => {
+        console.log('+++template=', template);
+        this.containerFrame = new createjs.Container();
+        const offset: XY = new XY();
+        offset.x = gapX;
+        offset.y = gapY;
+        this.drawService.drawTemplate(this.containerFrame, template, DrawMode.modeFrameOnly, offset);
+  
+        gapX = gapX + 1500;
+  
+        const test = new createjs.Container();
+        const newOffset: XY = new XY();
+        newOffset.x = gapX;
+        newOffset.y = gapY;
+        this.drawService.drawTemplate(test, template, DrawMode.modeFrameOnly, newOffset);
+  
+        this.mainStage.addChild(this.containerFrame);
+        this.mainStage.addChild(test);
+        this.mainStage.update();
+  
+        gapX = 120;
+        gapY = gapY + 250;
+      });
     });
-
 
   }
 
@@ -101,10 +84,6 @@ export class DisplayTemplatePanelComponent implements OnInit {
     if (1 === 1) {
 
     }
-  }
-
-  test() {
-
   }
 
 

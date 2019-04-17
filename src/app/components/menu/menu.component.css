@@ -1,27 +1,60 @@
 .div-left-menu{
     padding: 0px;
-    width: 75px;
+    width: 60px;
     display: inline-block;
-    height: 100%;
     vertical-align: top;
     overflow-y: hidden;
-    background-color: rgb(55, 75, 107);
     overflow: hidden;
-    
+    margin-top: 10px;
+    margin-left: 5px;
 }
 
 .div-left-menu .mat-card{
     margin-bottom: 10px;
 }
 
-.menu-button{
-    cursor: pointer;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: center;
-    color: white;
+.div-left-menu .menu-icon{
+    color: rgb(100,100,100);
+    font-size: 25px;
 }
 
-.menu-icon{
+.menu-button{
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    color: rgb(100,100,100);
+    background-color: white;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 60px;
+}
+
+.menu-primary{
     color: white;
+    background-color: rgb(150, 20, 150);
+}
+
+/*
+.menu-primary::after{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-right: 49px solid rgb(150, 20, 150);
+    border-top: 58px solid rgb(150, 20, 150);
+    clear: both;
+}
+*/
+
+.menu-primary .menu-icon{
+    color: white;
+    font-size: 25px;
+}
+
+.menu-default{
+
 }

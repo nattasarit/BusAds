@@ -1,4 +1,44 @@
-.header{
-    color: #05426d;
+.login-header{
+    color: #150938;
     font-weight: bold;
+    font-size: 34px;
+    right: 0;
+    margin-top: 30px;
+    position: absolute;
+    margin-right: 50px;
+}
+
+.login-cover{
+    background-image: linear-gradient(to right, rgba(220,220,150,0.1), rgba(220,220,150,0.9));
+    position: absolute;
+    width: 100%;
+    right: 0;
+    height: 100%;
+}
+
+.login-panel{
+    margin-top: 65px;
+    width: 150px;
+    right: 55px;
+    position: absolute;
+}
+
+.mat-input-underline {
+    background-color: #FFFFFF;    /* replace this color with your accent color hex code */
+}
+
+.mat-form-field-underline {
+    background-color: #FFFFFF;
+}
+.mat-form-field-ripple {
+    background-color: #FFFFFF;
+}
+
+.bg-login-page{
+    background-image: url(/assets/images/bg_login.jpg);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
 }

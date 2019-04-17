@@ -1,0 +1,17 @@
+.divMainCanvasScroll{
+    display: inline-block;
+}
+
+.div-function-button{
+    width: 100%;
+}
+
+.function-button{
+    background: rgb(56, 94, 33);
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px 10px;
+    color: white;
+}

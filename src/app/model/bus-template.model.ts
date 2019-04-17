@@ -1,8 +1,10 @@
+import { BusMainFrameModel } from "./bus-mainframe.model";
+
 export class BusTemplateModel {
     id: number;
     name: string;
-    MainFrameCommand: string;
-    AFrameCommand: string;
-    BFrameCommand: string;
-    CFrameCommand: string;
+    MainFrame: BusMainFrameModel;
+    AFrameCommand: string[];
+    BFrameCommand: string[];
+    CFrameCommand: string[];
 }

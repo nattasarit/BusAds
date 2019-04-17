@@ -38,6 +38,10 @@ const APP_ROUTES: Routes = [
     component: DesignPageComponent
   },
   {
+    path: 'login',
+    component: LoginPageComponent
+  },
+  {
     path: '',
     component: LoginPageComponent
   }

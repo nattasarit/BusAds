@@ -15,22 +15,19 @@ export class DbconnectorService {
               private jsonp: Jsonp,
               private httpClient: HttpClient) { }
 
-  public test(): Observable<any> {
-    const domain = window.location;
-    console.log('domain=', domain);
+  public reqDB(method: string, params: string): Observable<any> {
+    const domain = window.location.hostname;
     // return this.appService.reqUrl("http://localhost/busadsBackend/service.php", ResponseType.json).pipe(
-
     // const urlService = 'http://busads.epizy.com/assets/back-end/service.php';
-    let urlService = domain.href + 'assets/back-end/service.php';
+
     // fix path PHP
     //urlService = 'http://busads.epizy.com/assets/back-end/service.php?callback=BANKTEST';
 
+    const urlService = 'http://localhost/busads/assets/back-end/service.php';
 
-
-    return this.appService.requestPHP(urlService).pipe(
+    return this.appService.requestPHP(urlService, method, params ? params : "").pipe(
       map(response => {
-        // response.map(response2 => <string[]> response2.json()[1]);
-        console.log('response=', response);
+        response = response.json();
         return response;
       })
     );

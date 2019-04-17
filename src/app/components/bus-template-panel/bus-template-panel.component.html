@@ -1,3 +1,34 @@
-<p>
-  bus-template-panel works!
-</p>
+<div class="main-panel-container">
+  <div class="main-panel-menu">
+    <div class="div-function-button">
+      <div class="function-button" (click)="onCLickAdd('A')">
+        <i class="menu-icon fas fa-plus-circle"></i>
+        <div>Add A</div>
+      </div>
+      <div class="function-button" (click)="onCLickAdd('B')">
+        <i class="menu-icon fas fa-plus-circle"></i>
+        <div>Add B</div>
+      </div>
+      <div class="function-button" (click)="onCLickAdd('C')">
+        <i class="menu-icon fas fa-plus-circle"></i>
+        <div>Add C</div>
+      </div>
+      
+      <div class="function-button" (click)="onCLickClear()">
+        <i class="menu-icon fas fa-eraser"></i>
+        <div>Clear</div>
+      </div>
+      <div class="function-button" (click)="onCLickSave()">
+        <i class="menu-icon fas fa-save"></i>
+        <div>Save</div>
+      </div>
+    </div>
+  </div>
+  <div class="main-panel-content">
+    <div class="divMainCanvasScroll">
+      <mat-card>
+        <canvas id="divCanvasContainerฺBusTemplate" width="900" height="1500"></canvas>
+      </mat-card>
+    </div>
+  </div>
+</div>

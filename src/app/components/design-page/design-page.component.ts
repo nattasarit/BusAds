@@ -13,7 +13,7 @@ import { BusTemplatePanelComponent } from '../bus-template-panel/bus-template-pa
 import { BusSubtemplatePanelComponent } from '../bus-subtemplate-panel/bus-subtemplate-panel.component';
 import { ProjectPanelComponent } from '../project-panel/project-panel.component';
 import { DisplayTemplatePanelComponent } from '../display-template-panel/display-template-panel.component';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-design-page',
@@ -24,7 +24,8 @@ export class DesignPageComponent implements OnInit {
 
   constructor(public appService: AppService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private viewContainerRef: ViewContainerRef) { }
+    private viewContainerRef: ViewContainerRef,
+    public router: Router) { }
 
   @ViewChild('mainDesignPageContainer') private mainDesignPageContainer: ElementRef;
   @ViewChild('compMenu') private compMenu: MenuComponent;
@@ -99,7 +100,7 @@ export class DesignPageComponent implements OnInit {
   onMenuSystemIsClicked(response) {
     switch (response) {
       case 'logout': {
-        console.log('other case');
+        this.router.navigate(['']);
         break;
       } default: {
         this.compMenu.system = response;
