@@ -10,7 +10,6 @@ import { CanvasPanelComponent } from '../canvas-panel/canvas-panel.component';
 import { UploadPanelComponent } from '../upload-panel/upload-panel.component';
 import { BusTypePanelComponent } from '../bus-type-panel/bus-type-panel.component';
 import { BusTemplatePanelComponent } from '../bus-template-panel/bus-template-panel.component';
-import { BusSubtemplatePanelComponent } from '../bus-subtemplate-panel/bus-subtemplate-panel.component';
 import { ProjectPanelComponent } from '../project-panel/project-panel.component';
 import { DisplayTemplatePanelComponent } from '../display-template-panel/display-template-panel.component';
 import { Router } from '@angular/router';
@@ -34,7 +33,6 @@ export class DesignPageComponent implements OnInit {
   componenUploadPanelFactory = null;
   componenBusTypePanelFactory = null;
   componenBusTemplatePanelFactory = null;
-  componenBusSubTemplatePanelFactory = null;
   componenProjectPanelFactory = null;
   componenDisplayTemplatePanelFactory = null;
   private currentComponentRef = null;
@@ -75,12 +73,6 @@ export class DesignPageComponent implements OnInit {
         }
         this.initComponent(this.componenBusTemplatePanelFactory);
         break;
-      } case 'bus-subtemplate': {
-        if (this.componenBusSubTemplatePanelFactory === null) {
-          this.componenBusSubTemplatePanelFactory = this.componentFactoryResolver.resolveComponentFactory(BusSubtemplatePanelComponent);
-        }
-        this.initComponent(this.componenBusSubTemplatePanelFactory);
-        break;
       } case 'display-template': {
         if (this.componenDisplayTemplatePanelFactory === null) {
           this.componenDisplayTemplatePanelFactory = this.componentFactoryResolver.resolveComponentFactory(DisplayTemplatePanelComponent);
@@ -113,10 +105,9 @@ export class DesignPageComponent implements OnInit {
     for (const element of this.mainDesignPageContainer.nativeElement.children) {
       this.mainDesignPageContainer.nativeElement.removeChild(element);
     }
-    setTimeout(() => {
-      this.currentComponentRef = this.viewContainerRef.createComponent(compo);
-      this.mainDesignPageContainer.nativeElement.appendChild(this.currentComponentRef.location.nativeElement);
-    }, 10);
+
+    this.currentComponentRef = this.viewContainerRef.createComponent(compo);
+    this.mainDesignPageContainer.nativeElement.appendChild(this.currentComponentRef.location.nativeElement);
   }
 
 

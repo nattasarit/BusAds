@@ -8,4 +8,5 @@ export class ItemService {
   constructor() { }
 
   items = [];
+  itemsText = [];
 }

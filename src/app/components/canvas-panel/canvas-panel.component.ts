@@ -69,7 +69,7 @@ export class CanvasPanelComponent implements OnInit {
     let gapY = 20;
     //const listTemplate = this.templateService.getMatchedTemplateList();
     this.templateService.getMatchedTemplateList().subscribe(listTemplate => {
-
+      console.log("getMatchedTemplateList listTemplate=", listTemplate);
       listTemplate.forEach(template => {
         const containerFrame = new createjs.Container();
         const offset: XY = new XY();

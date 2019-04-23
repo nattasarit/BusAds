@@ -3,21 +3,20 @@ import { Http, Headers, RequestOptions, Response, Jsonp, URLSearchParams } from 
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class AppService {
   times = 0;
   constructor(private http: Http,
-              private jsonp: Jsonp,
-              private httpClient: HttpClient) { }
+    private jsonp: Jsonp,
+    private httpClient: HttpClient) { }
 
   public reqUrl(url: string, params: any = {}, responseType: ResponseType = ResponseType.text): Observable<any> {
     return this._reqUrl(url, params, responseType);
   }
 
   private _reqUrl(url: string, params: any, responseType: ResponseType = ResponseType.text): Observable<any> {
-    let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET' });
+    let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET' });
     const options = new RequestOptions({ headers: headers });
 
     const paramsToSend = this.softCopyJSON(params);
@@ -74,7 +73,7 @@ export class AppService {
 
   requestPHP(url: string, method: string, params: string): Observable<any> {
     const requestOptions = new RequestOptions();
-    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
     requestOptions.headers = headers;
 
     url = url + "?METHOD=" + method + "&" + params;
@@ -82,9 +81,29 @@ export class AppService {
     return this.http.get(url, requestOptions);
   }
 
+  uploadImage(formData: FormData): Observable<any> {
+    const url = 'http://localhost/busads/assets/back-end/uploadImage.php';
+
+    const requestOptions = new RequestOptions();
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
+    requestOptions.headers = headers;
+
+    return this.http.post(url, formData);
+  }
+
+  uploadText(formData: FormData): Observable<any> {
+    const url = 'http://localhost/busads/assets/back-end/uploadText.php';
+
+    const requestOptions = new RequestOptions();
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST' });
+    requestOptions.headers = headers;
+
+    return this.http.post(url, formData);
+  }
+
   requestJsonp(url): Observable<any> {
-      // options.params is an HttpParams object
-      return this.jsonp.request(url);
+    // options.params is an HttpParams object
+    return this.jsonp.request(url);
   }
 
   requestJsonp2(url) {
@@ -97,6 +116,8 @@ export class AppService {
     // TODO: Add error handling
     return this.jsonp.get(url, { search: params });
   }
+
+
 
 }
 

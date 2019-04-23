@@ -14,73 +14,28 @@ export class TemplateService {
 
   constructor(private itemService: ItemService, private dbconnector: DbconnectorService) { }
 
-  public mainframe1: BusMainFrameModel = {
-    id: 1,
-    name: 'mainframe1',
-    MainFrameCommand: 'MT*0*0|LT*315*0|LT*315*185|LT*122*185|CT*102*120*52*120*32*185|LT*0*185|CP'
-  }
-
-  public sampleTemplate1: BusTemplateModel = {
-    id: 1,
-    name: 'template1',
-    MainFrame: this.mainframe1,
-    AFrameCommand: ['MT*33*24|LT*139*24|LT*139*94|LT*33*94|CP'],
-    BFrameCommand: ['MT*220*40|LT*280*40|LT*280*111|LT*220*111|CP'],
-    CFrameCommand: []
-  };
-
-  public sampleTemplate2: BusTemplateModel = {
-    id: 2,
-    name: 'template2',
-    MainFrame: this.mainframe1,
-    AFrameCommand: ['RECT*100*50*90*85'],
-    BFrameCommand: ['RECT*220*0*80*120'],
-    CFrameCommand: ['RECT*0*20*70*50']
-  };
-
-  public sampleTemplate3: BusTemplateModel = {
-    id: 3,
-    name: 'template3',
-    MainFrame: this.mainframe1,
-    AFrameCommand: ['RECT*20*20*100*90'],
-    BFrameCommand: ['RECT*120*50*80*80'],
-    CFrameCommand: ['RECT*220*80*80*80']
-  };
-
-  public sampleTemplate4: BusTemplateModel = {
-    id: 4,
-    name: 'template4',
-    MainFrame: this.mainframe1,
-    AFrameCommand: ['RECT*140*30*110*140'],
-    BFrameCommand: [''],
-    CFrameCommand: ['']
-  };
-
-  public sampleSubTemplate1: BusSubTemplateModel = {
-    id: 1,
-    name: 'subtemplate1',
-    MainFrameCommand: '',
-    Frame1Command: 'RECT*0*0*150*150',
-    Frame2Command: 'RECT*0*150*150*150',
-    Frame3Command: '',
-    Frame4Command: ''
-  };
-
-  public sampleSubTemplate2: BusSubTemplateModel = {
-    id: 2,
-    name: 'subtemplate1',
-    MainFrameCommand: '',
-    Frame1Command: 'RECT*0*0*150*105',
-    Frame2Command: 'RECT*0*150*150*150',
-    Frame3Command: 'RECT*0*300*150*150',
-    Frame4Command: ''
-  };
-
-  getAllMainFrameList(): Array<BusMainFrameModel> {
+  getAllMainFrameList(): Observable<any> {
     const mainFrameList = new Array();
-    mainFrameList.push(this.mainframe1);
 
-    return mainFrameList;
+    let observable = Observable.create(observer => {
+      this.dbconnector.reqDB("BUS_MAINFRAME_Q", null).subscribe(response_mainframe => {
+        if (response_mainframe.success = true) {
+          response_mainframe.data.forEach(data => {
+            let mainframe: BusMainFrameModel = {
+              id: data.BUS_MF_ID,
+              name: data.BUS_MF_NAME,
+              MainFrameCommand: data.BUS_MF_COMMAND
+            }
+            mainFrameList.push(mainframe);
+          });
+        }
+
+        observer.next(mainFrameList); // This method same as resolve() method from Angular 1
+        observer.complete();//to show we are done with our processing
+      });
+    });
+
+    return observable;
   }
 
   getAllTemplateList(): Observable<any> {
@@ -93,9 +48,9 @@ export class TemplateService {
         if (response_mainframe.success = true) {
           response_mainframe.data.forEach(data => {
             let mainframe: BusMainFrameModel = {
-              id: 1,
-              name: 'mainframe1',
-              MainFrameCommand: 'MT*0*0|LT*315*0|LT*315*185|LT*122*185|CT*102*120*52*120*32*185|LT*0*185|CP'
+              id: data.BUS_MF_ID,
+              name: data.BUS_MF_NAME,
+              MainFrameCommand: data.BUS_MF_COMMAND
             }
             mainFrameList.push(mainframe);
           });
@@ -146,13 +101,13 @@ export class TemplateService {
       this.itemService.items.forEach(item => {
         switch (item.priority) {
           case 'A':
-          numImageA ++;
+            numImageA++;
             break;
           case 'B':
-          numImageB++;
+            numImageB++;
             break;
           case 'C':
-          numImageC++;
+            numImageC++;
             break;
           default:
             console.log('error case');
@@ -169,7 +124,7 @@ export class TemplateService {
       this.getAllTemplateList().subscribe(templateList => {
         console.log("templateList = ", templateList);
         const matchedTemplateList = new Array();
-        
+
         for (let i = 0; i < templateList.length; i++) {
           console.log("A Frame =", templateList[i].AFrameCommand.length);
           console.log("B Frame =", templateList[i].BFrameCommand.length);

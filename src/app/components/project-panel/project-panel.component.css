@@ -1,0 +1,14 @@
+.product-form-container{
+    width: 200px;
+}
+
+.cus-project-list{
+    margin-top: 5px;
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+.cus-project-list:hover{
+    background-color: lightsalmon
+    
+}

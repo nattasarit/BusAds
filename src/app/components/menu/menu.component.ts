@@ -42,11 +42,11 @@ export class MenuComponent implements OnInit {
   ];
 
   dataSysAddTemplate = [
-    {
-      name: 'bus-type',
-      displayName: 'Bus Type',
-      icon: 'fas fa-file-upload'
-    },
+    // {
+    //   name: 'bus-type',
+    //   displayName: 'Bus Type',
+    //   icon: 'fas fa-file-upload'
+    // },
     {
       name: 'bus-template',
       displayName: 'Bus Template',

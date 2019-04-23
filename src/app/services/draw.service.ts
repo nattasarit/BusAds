@@ -116,6 +116,10 @@ export class DrawService {
   }
 
   drawTemplate(container, template: BusTemplateModel, drawMode: DrawMode, offset?: XY) {
+
+    console.log("drawTemplate ", template, drawMode, offset);
+    
+
     const offsetTemplateX = 0;
     const offsetTemplateY = 0;
     // MainFrame
@@ -156,7 +160,7 @@ export class DrawService {
   }
 
   _drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject) {
-    console.log("_drawTemplate groupObject=", groupObject);
+    console.log("_drawTemplate ", frameCommand, drawMode, offset, strokeColor, groupObject);
     //////////////////////////////////////////////
     if (frameCommand.length > 0) {
       let maxGroupObject = groupObject.length;

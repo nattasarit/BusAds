@@ -60,28 +60,31 @@ export class BusTemplatePanelComponent implements OnInit {
     let gapX = 120;
     let gapY = 20;
     const listMainFrame = this.templateService.getAllMainFrameList();
-    console.log('listTemplate=', listMainFrame);
-    listMainFrame.forEach(mainFrame => {
-      console.log("mainFrame=", mainFrame);
-      this.containerFrame = new createjs.Container();
-      const offset: XY = new XY();
-      offset.x = gapX;
-      offset.y = gapY;
 
-      let sampleTemplate1: BusTemplateModel = {
-        id: 1,
-        name: 'templateTemp',
-        MainFrame: mainFrame,
-        AFrameCommand: [],
-        BFrameCommand: [],
-        CFrameCommand: []
-      };
-
-      this.mainStage.addChild(this.containerFrame);
-      this.drawService.drawTemplate(this.containerFrame, sampleTemplate1, DrawMode.modeFrameOnly, offset);
-
-      gapY = gapY + 250;
+    this.templateService.getAllMainFrameList().subscribe(listMainFrame => {
+      listMainFrame.forEach(mainFrame => {
+        console.log("mainFrame=", mainFrame);
+        this.containerFrame = new createjs.Container();
+        const offset: XY = new XY();
+        offset.x = gapX;
+        offset.y = gapY;
+  
+        let sampleTemplate1: BusTemplateModel = {
+          id: 1,
+          name: 'templateTemp',
+          MainFrame: mainFrame,
+          AFrameCommand: [],
+          BFrameCommand: [],
+          CFrameCommand: []
+        };
+  
+        this.mainStage.addChild(this.containerFrame);
+        this.drawService.drawTemplate(this.containerFrame, sampleTemplate1, DrawMode.modeFrameOnly, offset);
+  
+        gapY = gapY + 250;
+      });
     });
+
   }
 
   private onCLickAdd(type) {

@@ -26,7 +26,6 @@ import { CanvasPanelComponent } from './components/canvas-panel/canvas-panel.com
 import { MenuSystemComponent } from './components/menu-system/menu-system.component';
 import { BusTypePanelComponent } from './components/bus-type-panel/bus-type-panel.component';
 import { BusTemplatePanelComponent } from './components/bus-template-panel/bus-template-panel.component';
-import { BusSubtemplatePanelComponent } from './components/bus-subtemplate-panel/bus-subtemplate-panel.component';
 import { ImageWithPriorityComponent } from './core/image-with-priority/image-with-priority.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { ProjectPanelComponent } from './components/project-panel/project-panel.component';
@@ -59,7 +58,6 @@ const APP_ROUTES: Routes = [
     MenuSystemComponent,
     BusTypePanelComponent,
     BusTemplatePanelComponent,
-    BusSubtemplatePanelComponent,
     ImageWithPriorityComponent,
     ProjectPanelComponent,
     DisplayTemplatePanelComponent
@@ -102,7 +100,6 @@ const APP_ROUTES: Routes = [
                     CanvasPanelComponent,
                     BusTypePanelComponent,
                     BusTemplatePanelComponent,
-                    BusSubtemplatePanelComponent,
                     ImageWithPriorityComponent,
                     ProjectPanelComponent,
                     DisplayTemplatePanelComponent]
