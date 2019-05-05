@@ -7,4 +7,7 @@ export class BusTemplateModel {
     AFrameCommand: string[];
     BFrameCommand: string[];
     CFrameCommand: string[];
+    TextAFrameCommand: string[];
+    TextBFrameCommand: string[];
+    TextCFrameCommand: string[];
 }

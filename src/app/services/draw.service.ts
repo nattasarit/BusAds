@@ -116,24 +116,39 @@ export class DrawService {
   }
 
   drawTemplate(container, template: BusTemplateModel, drawMode: DrawMode, offset?: XY) {
-
-    console.log("drawTemplate ", template, drawMode, offset);
-    
-
     const offsetTemplateX = 0;
     const offsetTemplateY = 0;
     // MainFrame
     const shapeContainerFrame = new createjs.Shape();
     shapeContainerFrame.graphics.beginStroke('black');
-    shapeContainerFrame.graphics.beginFill('white');
+
+    if (this.itemService.bgColor && drawMode == DrawMode.modeImageOnly) {
+      shapeContainerFrame.graphics.beginFill(this.itemService.bgColor);
+    }
+    else {
+      shapeContainerFrame.graphics.beginFill('white');
+    }
+    //shapeContainerFrame.graphics.beginLinearGradientFill(["rgba(255,198,255,1)", "rgba(0,255,0,1)"], [0, 1], 0, 50, 0,   130);
+
+
     this.drawFunction(shapeContainerFrame.graphics, template.MainFrame.MainFrameCommand, offset);
     container.mask = shapeContainerFrame;
+
+
+
     container.addChild(shapeContainerFrame);
+
+
+    //shapeContainerFrame.graphics.beginFill('ff80ab');
 
 
     const groupObjectA = [];
     const groupObjectB = [];
     const groupObjectC = [];
+
+    const sourceTextA = [];
+    const sourceTextB = [];
+    const sourceTextC = [];
 
     if (this.itemService.items.length > 0) {
       this.itemService.items.forEach(item => {
@@ -153,17 +168,47 @@ export class DrawService {
       });
     }
 
+    if (this.itemService.itemsText.length > 0) {
+      this.itemService.itemsText.forEach(item => {
+        switch (item.priority) {
+          case 'A':
+            sourceTextA.push(item);
+            break;
+          case 'B':
+            sourceTextB.push(item);
+            break;
+          case 'C':
+            sourceTextC.push(item);
+            break;
+          default:
+            console.log('AA');
+        }
+      });
+    }
+
 
     this._drawTemplate(container, template.AFrameCommand, drawMode, offset, 'red', groupObjectA);
     this._drawTemplate(container, template.BFrameCommand, drawMode, offset, 'green', groupObjectB);
     this._drawTemplate(container, template.CFrameCommand, drawMode, offset, 'blue', groupObjectC);
+
+    if (template.TextAFrameCommand) {
+      this._drawTextTemplate(container, template.TextAFrameCommand, drawMode, offset, 'red', sourceTextA);
+    }
+
+    if (template.TextBFrameCommand) {
+      this._drawTextTemplate(container, template.TextBFrameCommand, drawMode, offset, 'green', sourceTextB);
+    }
+
+    if (template.TextCFrameCommand) {
+      this._drawTextTemplate(container, template.TextCFrameCommand, drawMode, offset, 'blue', sourceTextC);
+    }
+
+
   }
 
-  _drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject) {
-    console.log("_drawTemplate ", frameCommand, drawMode, offset, strokeColor, groupObject);
-    //////////////////////////////////////////////
-    if (frameCommand.length > 0) {
-      let maxGroupObject = groupObject.length;
+  _drawTemplate(container, frameCommand, drawMode, offset, strokeColor, sourceObject) {
+    if (frameCommand && frameCommand.length > 0) {
+      let maxSourceObject = sourceObject.length;
       let count = 0;
       frameCommand.forEach(eachFrameCommand => {
         const shapeContainer = new createjs.Shape();
@@ -175,15 +220,43 @@ export class DrawService {
         this.drawFunction(shapeContainer.graphics, eachFrameCommand, offset);
         container.addChild(shapeContainer);
         if (drawMode !== DrawMode.modeFrameOnly) {
-          if (count < maxGroupObject) {
-            let image = groupObject[count].image;
+          if (count < maxSourceObject) {
+            let image = sourceObject[count].image;
             this.addImage(image, container, shapeContainer);
             count++;
           }
         }
       });
 
-      if(maxGroupObject > frameCommand.length){
+      if (maxSourceObject > frameCommand.length) {
+        //this._drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject);
+      }
+    }
+  }
+
+  _drawTextTemplate(container, frameCommand, drawMode, offset, strokeColor, sourceObject) {
+    if (frameCommand.length > 0) {
+      let maxSourceObject = sourceObject.length;
+      let count = 0;
+      frameCommand.forEach(eachFrameCommand => {
+        const shapeContainer = new createjs.Shape();
+        if (drawMode === DrawMode.modeImageOnly) {
+          shapeContainer.graphics.beginStroke('rgba(0,0,0,0)');
+        } else {
+          shapeContainer.graphics.beginStroke(strokeColor).setStrokeStyle(1, "round", "bevel", 1).setStrokeDash([5, 5, 10, 10]);
+        }
+        this.drawFunction(shapeContainer.graphics, eachFrameCommand, offset);
+        container.addChild(shapeContainer);
+        if (drawMode !== DrawMode.modeFrameOnly) {
+          if (count < maxSourceObject) {
+            let image = sourceObject[count].image;
+            this.addImage(image, container, shapeContainer);
+            count++;
+          }
+        }
+      });
+
+      if (maxSourceObject > frameCommand.length) {
         //this._drawTemplate(container, frameCommand, drawMode, offset, strokeColor, groupObject);
       }
     }
@@ -239,170 +312,6 @@ export class DrawService {
           console.log('command not found');
       }
     });
-  }
-
-  addImageToTemplate(container, shapeOfFrame, groupObject, drawMode: DrawMode, mainOffset?: XY) {
-    let image = null;
-    console.log("@@@@@@@@@@@@ groupObject=", groupObject);
-
-    /*
-    if (groupObject.length > 0) {
-      if (groupObject.length === 1) {
-        image = groupObject[0].image;
-        if (drawMode !== DrawMode.modeFrameOnly) {
-          this.addImage(image, container, shapeOfFrame);
-        }
-      } else {
-        // Matching SubTemplate
-        console.log('groupObject = ', groupObject);
-
-        const XYTopLeftFrame: XY = this.getCornerTopLeft(shapeOfFrame.graphics.instructions);
-        const shapeFrameHWXY: HWXY = this.getHWXYrect(shapeOfFrame.graphics);
-
-        const subTemplate = this.templateService.sampleSubTemplate1;
-
-        const listDrawSubTemplate = Array();
-        if (subTemplate.Frame1Command) {
-          listDrawSubTemplate.push(subTemplate.Frame1Command);
-        }
-        if (subTemplate.Frame2Command) {
-          listDrawSubTemplate.push(subTemplate.Frame2Command);
-        }
-        if (subTemplate.Frame3Command) {
-          listDrawSubTemplate.push(subTemplate.Frame3Command);
-        }
-        if (subTemplate.Frame4Command) {
-          listDrawSubTemplate.push(subTemplate.Frame4Command);
-        }
-
-        console.log('listDrawSubTemplate=', listDrawSubTemplate);
-
-        const listShapeSubTemplate = Array();
-        const maxTopLeft: XY = new XY();
-        maxTopLeft.x = 999999;
-        maxTopLeft.y = 999999;
-        const maxTopRight: XY = new XY();
-        maxTopRight.x = 0;
-        maxTopRight.y = 999999;
-        const maxBottomLeft: XY = new XY();
-        maxBottomLeft.x = 999999;
-        maxBottomLeft.y = 0;
-        const maxBottomRight: XY = new XY();
-        maxBottomRight.x = 0;
-        maxBottomRight.y = 0;
-
-        listDrawSubTemplate.forEach(subTemplateFrameCommand => {
-          const shapeSubTemplate = new createjs.Shape();
-          if (drawMode === DrawMode.modeImageOnly) {
-            shapeSubTemplate.graphics.beginStroke('rgba(0,0,0,0)');
-          } else {
-            shapeSubTemplate.graphics.beginStroke('black');
-            shapeSubTemplate.graphics.setStrokeDash([2, 2]);
-          }
-
-          this.drawFunction(shapeSubTemplate.graphics, subTemplateFrameCommand, XYTopLeftFrame);
-          listShapeSubTemplate.push(shapeSubTemplate);
-
-          const subTemplateHWXY: HWXY = this.getHWXYrect(shapeSubTemplate.graphics);
-          const subTemplateTopLeft: XY = new XY();
-          subTemplateTopLeft.x = Number(subTemplateHWXY.x);
-          subTemplateTopLeft.y = Number(subTemplateHWXY.y);
-
-          const subTemplateTopRight: XY = new XY();
-          subTemplateTopRight.x = Number(subTemplateHWXY.x) + Number(subTemplateHWXY.w);
-          subTemplateTopRight.y = Number(subTemplateHWXY.y);
-
-          const subTemplateBottomLeft: XY = new XY();
-          subTemplateBottomLeft.x = Number(subTemplateHWXY.x);
-          subTemplateBottomLeft.y = Number(subTemplateHWXY.y) + Number(subTemplateHWXY.h);
-
-          const subTemplateBottomRight: XY = new XY();
-          subTemplateBottomRight.x = Number(subTemplateHWXY.x) + Number(subTemplateHWXY.w);
-          subTemplateBottomRight.y = Number(subTemplateHWXY.y) + Number(subTemplateHWXY.h);
-
-          if (subTemplateTopLeft.x < maxTopLeft.x) {
-            maxTopLeft.x = subTemplateTopLeft.x;
-          }
-          if (subTemplateTopLeft.y < maxTopLeft.y) {
-            maxTopLeft.y = subTemplateTopLeft.y;
-          }
-
-          if (subTemplateTopRight.x > maxTopRight.x) {
-            maxTopRight.x = subTemplateTopRight.x;
-          }
-          if (subTemplateTopRight.y < maxTopRight.y) {
-            maxTopRight.y = subTemplateTopRight.y;
-          }
-
-          if (subTemplateBottomLeft.x < maxBottomLeft.x) {
-            maxBottomLeft.x = subTemplateBottomLeft.x;
-          }
-          if (subTemplateBottomLeft.y > maxBottomLeft.y) {
-            maxBottomLeft.y = subTemplateBottomLeft.y;
-          }
-
-          if (subTemplateBottomRight.x > maxBottomRight.x) {
-            maxBottomRight.x = subTemplateBottomRight.x;
-          }
-          if (subTemplateBottomRight.y > maxBottomRight.y) {
-            maxBottomRight.y = subTemplateBottomRight.y;
-          }
-
-
-        });
-
-        const shapeSubTemplateContainer = new createjs.Shape();
-        shapeSubTemplateContainer.graphics.beginStroke('red');
-        shapeSubTemplateContainer.graphics.rect(maxTopLeft.x,
-          maxTopLeft.y,
-          Number(maxTopRight.x) - Number(maxTopLeft.x),
-          Number(maxBottomLeft.y) - Number(maxTopLeft.y));
-        // container.addChild(shapeSubTemplateContainer);
-
-        const shapeSubTemplateContainerHWXY = this.getHWXYrect(shapeSubTemplateContainer.graphics);
-
-        const ratio = this.getRatio(shapeFrameHWXY.w, shapeSubTemplateContainerHWXY.w, shapeFrameHWXY.h, shapeSubTemplateContainerHWXY.h);
-
-        console.log('ratio=', ratio);
-        let lastHeight = 0;
-        let count = 0;
-        listShapeSubTemplate.forEach(eachShapeSubTemplate => {
-          const eachShapeSubTemplateHWXY = this.getHWXYrect(eachShapeSubTemplate.graphics);
-
-          // eachShapeSubTemplate.scaleX = ratio;
-          // eachShapeSubTemplate.scaleY = ratio;
-
-          const newWidth = eachShapeSubTemplateHWXY.w * ratio;
-          const offsetX = (shapeFrameHWXY.w / 2) - (newWidth / 2);
-          const newHeight = eachShapeSubTemplateHWXY.h * ratio;
-          const offsetY = (shapeFrameHWXY.h / 2) - (newHeight / 2);
-
-          // eachShapeSubTemplate.x = Number(eachShapeSubTemplateHWXY.x) + Number(offsetX);
-          // eachShapeSubTemplate.y = Number(eachShapeSubTemplateHWXY.y) + Number(offsetY);
-
-          const x = Number(eachShapeSubTemplateHWXY.x) - (Number(eachShapeSubTemplateHWXY.x) * ratio) + offsetX;
-          // const y = Number(eachShapeSubTemplateHWXY.y) - (Number(eachShapeSubTemplateHWXY.y) * ratio) - lastHeight;
-          const y = Number(eachShapeSubTemplateHWXY.y) - (Number(eachShapeSubTemplateHWXY.y) * ratio) - lastHeight;
-
-
-          eachShapeSubTemplate.scaleX = ratio;
-          eachShapeSubTemplate.scaleY = ratio;
-          eachShapeSubTemplate.x = x;
-          eachShapeSubTemplate.y = y;
-
-          container.addChild(eachShapeSubTemplate);
-          if (drawMode !== DrawMode.modeFrameOnly) {
-            this.addImage(groupObject[count].image, container, eachShapeSubTemplate, ratio, lastHeight);
-            count ++;
-          }
-
-          // lastHeight = newHeight;
-          lastHeight = (eachShapeSubTemplateHWXY.h - newHeight);
-        });
-
-      }
-    }
-    */
   }
 
   addImage(image, container, shapeOfFrame, mainRatio?, mainOffsetY?) {

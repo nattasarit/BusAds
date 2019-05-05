@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class AppService {
   times = 0;
+  divLoading = null;
   constructor(private http: Http,
     private jsonp: Jsonp,
     private httpClient: HttpClient) { }
@@ -115,6 +116,30 @@ export class AppService {
     this.times = this.times + 1;
     // TODO: Add error handling
     return this.jsonp.get(url, { search: params });
+  }
+
+  showLoading() {
+    if (!this.divLoading) {
+      this.divLoading = document.getElementById("divLoading");
+    }
+
+    this.divLoading.classList.add("show-loading");
+    
+    
+  }
+
+  hideLoading() {
+    if (!this.divLoading) {
+      this.divLoading = document.getElementById("divLoading");
+    }
+    /*
+    setTimeout(()=>{
+      this.divLoading.classList.remove("show-loading");
+    }, 1000);
+
+    */
+    this.divLoading.classList.remove("show-loading");
+    
   }
 
 

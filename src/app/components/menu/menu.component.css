@@ -1,12 +1,13 @@
 .div-left-menu{
     padding: 0px;
-    width: 60px;
+    width: 165px;
     display: inline-block;
     vertical-align: top;
     overflow-y: hidden;
     overflow: hidden;
     margin-top: 10px;
     margin-left: 5px;
+    padding-bottom: 20px;
 }
 
 .div-left-menu .mat-card{
@@ -26,14 +27,64 @@
     color: rgb(100,100,100);
     background-color: white;
     margin-bottom: 5px;
-    border-radius: 5px;
-    font-weight: bold;
     width: 60px;
 }
 
+.card-menu{
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+      transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+  padding: 18px 30px 18px 20px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.card-menu:hover{
+     transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.card-menu img{
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    max-height: 120px;
+}
+  
+.card-menu:nth-child(1) {
+    background-image: url(https://ionicframework.com/img/getting-started/theming-card.png);
+    /*background-image: url(https://ionicframework.com/img/getting-started/ionic-native-card.png);*/
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 35px;
+}
+
+.card-menu:nth-child(2){
+    background-image: url(https://ionicframework.com/img/getting-started/theming-card.png);
+    /*background-image: url(https://ionicframework.com/img/getting-started/components-card.png);*/
+       background-repeat: no-repeat;
+     background-position: right;
+     background-size: 35px;
+ }
+ 
+ .card-menu:nth-child(3){
+    background-image: url(https://ionicframework.com/img/getting-started/theming-card.png);
+       background-repeat: no-repeat;
+     background-position: right;
+     background-size: 35px;
+ }
+
+ .card-menu:nth-child(4){
+    background-image: url(https://ionicframework.com/img/getting-started/theming-card.png);
+       background-repeat: no-repeat;
+     background-position: right;
+     background-size: 35px;
+ }
+
 .menu-primary{
     color: white;
-    background-color: rgb(150, 20, 150);
+    background-color: #5e92f3;
 }
 
 /*

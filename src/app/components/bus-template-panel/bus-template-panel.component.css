@@ -7,11 +7,17 @@
 }
 
 .function-button{
-    background: rgb(56, 94, 33);
+    background: #ff6d00;
     cursor: pointer;
     text-align: center;
     display: inline-block;
     margin-right: 5px;
     padding: 5px 10px;
     color: white;
+    border-radius: 4px;
+}
+
+.drawmenu-section{
+    display: inline-block;
+    margin-right: 10px;
 }

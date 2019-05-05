@@ -1,27 +1,43 @@
 <div class="main-panel-container">
   <div class="main-panel-menu">
-    <div class="div-function-button">
+  </div>
+  <div class="div-function-button">
+    <div class="drawmenu-section">
       <div class="function-button" (click)="onCLickAdd('A')">
         <i class="menu-icon fas fa-plus-circle"></i>
-        <div>Add A</div>
+        <div>เพิ่มกรอบรูปขนาดใหญ่</div>
       </div>
       <div class="function-button" (click)="onCLickAdd('B')">
         <i class="menu-icon fas fa-plus-circle"></i>
-        <div>Add B</div>
+        <div>เพิ่มกรอบรูปขนาดกลาง</div>
       </div>
       <div class="function-button" (click)="onCLickAdd('C')">
         <i class="menu-icon fas fa-plus-circle"></i>
-        <div>Add C</div>
+        <div>เพิ่มกรอบรูปขนาดเล็ก</div>
       </div>
       
-      <div class="function-button" (click)="onCLickClear()">
-        <i class="menu-icon fas fa-eraser"></i>
-        <div>Clear</div>
+    </div>
+    <div class="drawmenu-section">
+      <div class="function-button" (click)="onCLickAdd('TEXT_A')">
+        <i class="menu-icon fas fa-plus-circle"></i>
+        <div>เพิ่มกรอบข้อความขนาดใหญ่</div>
       </div>
-      <div class="function-button" (click)="onCLickSave()">
-        <i class="menu-icon fas fa-save"></i>
-        <div>Save</div>
+      <div class="function-button" (click)="onCLickAdd('TEXT_B')">
+        <i class="menu-icon fas fa-plus-circle"></i>
+        <div>เพิ่มกรอบข้อความขนาดกลาง</div>
       </div>
+      <div class="function-button" (click)="onCLickAdd('TEXT_C')">
+        <i class="menu-icon fas fa-plus-circle"></i>
+        <div>เพิ่มกรอบข้อความขนาดเล็ก</div>
+      </div>
+    </div>
+    <div class="function-button" (click)="onCLickClear()">
+      <i class="menu-icon fas fa-eraser"></i>
+      <div>ลบ</div>
+    </div>
+    <div class="function-button" (click)="onCLickSave()">
+      <i class="menu-icon fas fa-save"></i>
+      <div>บันทึก</div>
     </div>
   </div>
   <div class="main-panel-content">

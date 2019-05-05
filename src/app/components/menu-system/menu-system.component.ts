@@ -18,17 +18,17 @@ export class MenuSystemComponent implements OnInit {
     const menuResponse = [
       {
         name: 'design',
-        displayName: 'Design',
+        displayName: 'ออกแบบ',
         icon: 'fas fa-file-upload'
       },
       {
         name: 'add-template',
-        displayName: 'Add Template',
+        displayName: 'เพิ่มแม่แบบ',
         icon: 'fas fa-bus'
       },
       {
         name: 'logout',
-        displayName: 'Logout',
+        displayName: 'ออกจากระบบ',
         icon: 'fas fa-sign-out-alt'
       }
     ];

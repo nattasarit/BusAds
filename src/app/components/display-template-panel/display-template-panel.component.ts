@@ -50,7 +50,10 @@ export class DisplayTemplatePanelComponent implements OnInit {
     let gapY = 20;
     //const listTemplate = this.templateService.getAllTemplateList();
 
+    this.appService.showLoading();
     this.templateService.getAllTemplateList().subscribe(listTemplate => {
+      this.appService.hideLoading();
+
       console.log('listTemplate=', listTemplate);
       listTemplate.forEach(template => {
         console.log('+++template=', template);

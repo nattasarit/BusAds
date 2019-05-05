@@ -10,6 +10,7 @@ export class ProjectService {
 
   constructor(private dbconnector: DbconnectorService) { }
 
+  custProjectList: [];
   curCusProj:CustProject = null;
 
   getLUTProjectList() {
@@ -54,6 +55,36 @@ export class ProjectService {
     return observable;
   }
 
+  updateCusProject(command) {
+    let observable = Observable.create(observer => {
+      this.dbconnector.reqDB("CUS_PROJECT_U", command).subscribe(response => {
+        observer.next(response);
+        observer.complete();
+      });
+    });
+    return observable;
+  }
+
+  updateCusProjectSelectTemplate(command) {
+    let observable = Observable.create(observer => {
+      this.dbconnector.reqDB("CUS_PROJECT_U_SELECT_TEMPLATE", command).subscribe(response => {
+        observer.next(response);
+        observer.complete();
+      });
+    });
+    return observable;
+  }
+
+  updateCusProjectColor(command) {
+    let observable = Observable.create(observer => {
+      this.dbconnector.reqDB("CUS_PROJECT_U_COLOR", command).subscribe(response => {
+        observer.next(response);
+        observer.complete();
+      });
+    });
+    return observable;
+  }
+
   saveRelProject(command) {
     let observable = Observable.create(observer => {
       this.dbconnector.reqDB("REL_PROJECT_I", command).subscribe(response => {
@@ -63,4 +94,5 @@ export class ProjectService {
     });
     return observable;
   }
+
 }

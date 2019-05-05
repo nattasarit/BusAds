@@ -13,17 +13,26 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
   <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <script src="./assets/background-color-thief.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <script>
     _gvariable = null;
     function BANKTEST(data) {
       _gvariable = data;
       console.log('in bank data=', data);
     }
+
+    //_gDivLoading = null;
+    //_gDivLoading = document.getElementById("divLoading");
+    
   </script>
 </head>
 
 <body>
+  <div id="divLoading" class="global-loading">
+    <div class="lds-hourglass"></div>
+  </div>
   <app-root></app-root>
 </body>
 

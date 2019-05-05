@@ -4,10 +4,12 @@
 
 .upload-container{
     vertical-align: top;
+    display: inline-block;
 }
 
 .display-image-container{
     vertical-align: top;
+    height: 260px;
 }
 
 .card-image-priority{
@@ -17,4 +19,16 @@
 
 .mat-radio-label{
     padding-right: 10px;
+}
+
+.img-priority-card .mat-card{
+    height: 188px;
+}
+
+.upload-section{
+
+}
+
+.upload-section.mdl-button{
+    margin-right: 5px;
 }

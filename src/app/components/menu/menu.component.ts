@@ -21,22 +21,22 @@ export class MenuComponent implements OnInit {
   dataSysDesign = [
     {
       name: 'project',
-      displayName: 'Project',
+      displayName: 'แฟ้มงาน',
       icon: 'fas fa-folder'
     },
     {
       name: 'upload',
-      displayName: 'Upload',
+      displayName: 'รูปภาพ',
       icon: 'fas fa-file-upload'
     },
     {
       name: 'canvas',
-      displayName: 'Canvas',
+      displayName: 'หน้าจอออกแบบ',
       icon: 'fas fa-drafting-compass'
     },
     {
       name: 'display-template',
-      displayName: 'Template',
+      displayName: 'แม่แบบทั้งหมด',
       icon: 'fas fa-bus'
     }
   ];
@@ -69,10 +69,12 @@ export class MenuComponent implements OnInit {
     switch (system) {
       case 'design': {
         menuList = this.dataSysDesign;
+        this.selectedMenu = this.dataSysDesign[0];
         this.onCLickMenu(this.dataSysDesign[0]);
         break;
       } case 'add-template': {
         menuList = this.dataSysAddTemplate;
+        this.selectedMenu = this.dataSysAddTemplate[0];
         this.onCLickMenu(this.dataSysAddTemplate[0]);
         break;
       } default: {

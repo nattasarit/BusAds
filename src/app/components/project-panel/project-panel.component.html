@@ -1,6 +1,13 @@
 <div class="main-panel-container">
   <div class="main-panel-menu">
-    <button mat-button (click)="addProject()">เพิ่ม</button>
+  </div>
+  <div class="list-project-panel">
+    <div class="label-project-header">
+      รายการงาน
+    </div>
+    <div class="container-btn-add-proj">
+      <i class="fas fa-plus-circle btn-add-proj" (click)="addProject()"></i>
+    </div>
     <div class="cus-project-list" *ngFor="let CustProject of CustProjects" (click)="onCustProjectClick(CustProject)">
       {{CustProject.CUS_PROJ_NAME}}
     </div>
@@ -8,20 +15,29 @@
   <div class="main-panel-content">
     <div class="product-form-container">
       <mat-form-field style="display: inline;">
-        <input #productName matInput placeholder="ชื่อผลิตภัณฑ์">
+        <input [value]="productName" #productNameElem matInput placeholder="ชื่อผลิตภัณฑ์">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>ประเภทผลิตภัณฑ์</mat-label>
-        <mat-select #productType>
+        <mat-select #productTypeElem [(ngModel)]="productType">
           <mat-option *ngFor="let LUTProject of LUTProjects" [value]="LUTProject.PROJ_ID">
             {{LUTProject.PROJ_VALUE}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <button mat-button (click)="saveProject()">บันทึก</button>
-      <button mat-button (click)="cancelProject()">ยกเลิก</button>
+      <mat-form-field>
+        <input #dateInput [value]="startDate" matInput [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"
+        (click)="saveProject()">บันทึก</button>
+      <button style="margin-left: 20px;" mat-button
+        class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"
+        (click)="cancelProject()">ยกเลิก</button>
     </div>
   </div>
 </div>

@@ -5,11 +5,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { DbconnectorService } from './services/dbconnector.service';
 import { AppService } from './services/app.service';
 import { DrawService } from './services/draw.service';
-import { HttpModule, JsonpModule  } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { UICarouselModule } from 'ui-carousel';
@@ -30,6 +30,10 @@ import { ImageWithPriorityComponent } from './core/image-with-priority/image-wit
 import { MatRadioModule } from '@angular/material/radio';
 import { ProjectPanelComponent } from './components/project-panel/project-panel.component';
 import { DisplayTemplatePanelComponent } from './components/display-template-panel/display-template-panel.component';
+import { ColorPickerDialogComponent } from './components/color-picker-dialog/color-picker-dialog.component';
+import { DisplayZoomDialogComponent } from './components/display-zoom-dialog/display-zoom-dialog.component';
+import { MatDatepickerModule, MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const APP_ROUTES: Routes = [
   {
@@ -46,6 +50,18 @@ const APP_ROUTES: Routes = [
   }
 ];
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MM YYYY',
+    dateA11yLabel: 'DD/MM/YYYY',
+    monthYearA11yLabel: 'MM YYYY',
+  },
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +76,9 @@ const APP_ROUTES: Routes = [
     BusTemplatePanelComponent,
     ImageWithPriorityComponent,
     ProjectPanelComponent,
-    DisplayTemplatePanelComponent
+    DisplayTemplatePanelComponent,
+    ColorPickerDialogComponent,
+    DisplayZoomDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -91,17 +109,25 @@ const APP_ROUTES: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MomentDateModule
   ],
   exports: [RouterModule],
-  providers: [DbconnectorService, AppService, DrawService],
+  providers: [DbconnectorService, AppService, DrawService, MatDatepickerModule, 
+            { provide: MAT_DATE_LOCALE, useValue: 'it' }, //you can change useValue
+            { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+            { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
   bootstrap: [AppComponent],
   entryComponents: [UploadPanelComponent,
-                    CanvasPanelComponent,
-                    BusTypePanelComponent,
-                    BusTemplatePanelComponent,
-                    ImageWithPriorityComponent,
-                    ProjectPanelComponent,
-                    DisplayTemplatePanelComponent]
+    CanvasPanelComponent,
+    BusTypePanelComponent,
+    BusTemplatePanelComponent,
+    ImageWithPriorityComponent,
+    ProjectPanelComponent,
+    DisplayTemplatePanelComponent,
+    ColorPickerDialogComponent,
+    DisplayZoomDialogComponent]
 })
 export class AppModule { }

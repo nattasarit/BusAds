@@ -62,6 +62,9 @@ else if($method == "BUS_TEMPLATE_Q"){
             $data[$count]['BUS_TEM_COMMAND_A'] = $row['BUS_TEM_COMMAND_A'];
             $data[$count]['BUS_TEM_COMMAND_B'] = $row['BUS_TEM_COMMAND_B'];
             $data[$count]['BUS_TEM_COMMAND_C'] = $row['BUS_TEM_COMMAND_C'];
+            $data[$count]['BUS_TEM_COMMAND_TEXT_A'] = $row['BUS_TEM_COMMAND_TEXT_A'];
+            $data[$count]['BUS_TEM_COMMAND_TEXT_B'] = $row['BUS_TEM_COMMAND_TEXT_B'];
+            $data[$count]['BUS_TEM_COMMAND_TEXT_C'] = $row['BUS_TEM_COMMAND_TEXT_C'];
             $count++;
         }
 
@@ -123,7 +126,12 @@ if($method == "CUS_PROJECT_Q"){
             $data[$count]['IMAGE_C'] = $row['IMAGE_C'];
             $data[$count]['TEXT_A'] = $row['TEXT_A'];
             $data[$count]['TEXT_B'] = $row['TEXT_B'];
-            $data[$count]['TEXT_B'] = $row['TEXT_B'];
+            $data[$count]['TEXT_C'] = $row['TEXT_C'];
+            $data[$count]['BG_STYLE'] = $row['BG_STYLE'];
+            $data[$count]['BG_COLOR'] = $row['BG_COLOR'];
+            $data[$count]['BUS_TEM_ID'] = $row['BUS_TEM_ID'];
+            $data[$count]['START_DATE'] = $row['START_DATE'];
+            
             $count++;
         }
 
@@ -145,8 +153,9 @@ if($method == "CUS_PROJECT_Q"){
 if($method == "CUS_PROJECT_I"){
     $CUS_PROJ_NAME = htmlspecialchars($_GET["CUS_PROJ_NAME"]);
     $CUS_PROJ_TYPE = htmlspecialchars($_GET["CUS_PROJ_TYPE"]);
+    $START_DATE = htmlspecialchars($_GET["START_DATE"]);
 
-    $sql = "INSERT INTO CUS_PROJECT (CUS_PROJ_NAME, CUS_PROJ_TYPE) VALUES('" . $CUS_PROJ_NAME . "','" . $CUS_PROJ_TYPE . "');";
+    $sql = "INSERT INTO CUS_PROJECT (CUS_PROJ_NAME, CUS_PROJ_TYPE, START_DATE) VALUES('" . $CUS_PROJ_NAME . "','" . $CUS_PROJ_TYPE . "','" . $START_DATE . "');";
     $result = mysqli_query($conn, $sql);
 
     $sql = "SELECT CUS_PROJ_ID FROM CUS_PROJECT WHERE CUS_PROJ_NAME LIKE '" . $CUS_PROJ_NAME . "'";
@@ -174,6 +183,55 @@ if($method == "CUS_PROJECT_I"){
     }
     mysqli_close($conn);  
 }
+if($method == "CUS_PROJECT_U"){
+    $CUS_PROJ_NAME = htmlspecialchars($_GET["CUS_PROJ_NAME"]);
+    $CUS_PROJ_TYPE = htmlspecialchars($_GET["CUS_PROJ_TYPE"]);
+    $CUS_PROJ_ID = htmlspecialchars($_GET["CUS_PROJ_ID"]);
+    $START_DATE = htmlspecialchars($_GET["START_DATE"]);
+
+    $sql = "UPDATE CUS_PROJECT SET CUS_PROJ_NAME='" . $CUS_PROJ_NAME . "', CUS_PROJ_TYPE='" . $CUS_PROJ_TYPE . "', START_DATE='" . $START_DATE . "' WHERE CUS_PROJ_ID ='". $CUS_PROJ_ID ."'";
+    $result = mysqli_query($conn, $sql);
+
+    $obj = new stdClass();
+    $obj->data = 'aaa';
+    $obj->success = true;
+    $obj->message = $sql;
+
+    echo json_encode($obj);
+    mysqli_close($conn);  
+}
+if($method == "CUS_PROJECT_U_SELECT_TEMPLATE"){
+    $REL_PROJ_ID = htmlspecialchars($_GET["REL_PROJ_ID"]);
+    $BUS_TEM_ID = htmlspecialchars($_GET["BUS_TEM_ID"]);
+    
+
+    $sql = "UPDATE REL_PROJECT SET BUS_TEM_ID='" . $BUS_TEM_ID . "' WHERE REL_PROJ_ID ='". $REL_PROJ_ID ."'";
+    $result = mysqli_query($conn, $sql);
+
+    $obj = new stdClass();
+    $obj->data = 'aaa';
+    $obj->success = true;
+    $obj->message = $sql;
+
+    echo json_encode($obj);
+    mysqli_close($conn);  
+}
+if($method == "CUS_PROJECT_U_COLOR"){
+    $REL_PROJ_ID = htmlspecialchars($_GET["REL_PROJ_ID"]);
+    $BG_COLOR = htmlspecialchars($_GET["BG_COLOR"]);
+    
+
+    $sql = "UPDATE REL_PROJECT SET BG_COLOR='" . $BG_COLOR . "' WHERE REL_PROJ_ID ='". $REL_PROJ_ID ."'";
+    $result = mysqli_query($conn, $sql);
+
+    $obj = new stdClass();
+    $obj->data = 'aaa';
+    $obj->success = true;
+    $obj->message = $sql;
+
+    echo json_encode($obj);
+    mysqli_close($conn);  
+}
 if($method == "REL_PROJECT_I"){
     $CUS_PROJ_ID = htmlspecialchars($_GET["CUS_PROJ_ID"]);
 
@@ -195,7 +253,11 @@ else if($method == "BUS_TEMPLATE_I"){
     $B = htmlspecialchars($_GET["B"]);
     $C = htmlspecialchars($_GET["C"]);
 
-    $sql = "INSERT INTO BUS_TEMPLATE (BUS_TEM_NAME, BUS_TEM_MF_ID, BUS_TEM_COMMAND_A, BUS_TEM_COMMAND_B, BUS_TEM_COMMAND_C) VALUES('" . $NAME . "','" . $MF . "','" . $A . "','" . $B . "','" . $C . "');";
+    $TEXT_A = htmlspecialchars($_GET["TEXT_A"]);
+    $TEXT_B = htmlspecialchars($_GET["TEXT_B"]);
+    $TEXT_C = htmlspecialchars($_GET["TEXT_C"]);
+
+    $sql = "INSERT INTO BUS_TEMPLATE (BUS_TEM_NAME, BUS_TEM_MF_ID, BUS_TEM_COMMAND_A, BUS_TEM_COMMAND_B, BUS_TEM_COMMAND_C, BUS_TEM_COMMAND_TEXT_A, BUS_TEM_COMMAND_TEXT_B, BUS_TEM_COMMAND_TEXT_C) VALUES('" . $NAME . "','" . $MF . "','" . $A . "','" . $B . "','" . $C . "','" . $TEXT_A . "','" . $TEXT_B . "','" . $TEXT_C . "');";
     //$sql = "INSERT INTO BUS_TEMPLATE (BUS_TEM_NAME, BUS_TEM_MF_ID, BUS_TEM_COMMAND_A, BUS_TEM_COMMAND_B, BUS_TEM_COMMAND_C) VALUES('aaa','bbb','ccc','ddd','eee');";
     
     $result = mysqli_query($conn, $sql);

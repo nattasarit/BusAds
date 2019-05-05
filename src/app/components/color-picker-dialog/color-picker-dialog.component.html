@@ -1,0 +1,27 @@
+<div>
+  <div class="color-picker">
+    <div class="summary-info" style="display: none;">
+      <div class="info">
+        <p class="style">Background</p>
+      </div>
+      <div class="circle"></div>
+    </div>
+    <div class="opened">
+      <div>สีจากรูป</div>
+      <div class="colors">
+          <div (click)="changeColor(paint)" *ngFor="let paint of dominantColors" class="circle"
+          [ngStyle]="{'background': paint}"></div>
+      </div>
+      <div>สีที่เหมาะกับประเภทผลิตภัณฑ์</div>
+      <div class="colors">
+          <div (click)="changeColor(paint)" *ngFor="let paint of appropriateTypeColors" class="circle"
+          [ngStyle]="{'background': paint}"></div>
+      </div>
+      <div>สีที่ไม่เหมาะกับประเภทผลิตภัณฑ์</div>
+      <div class="colors">
+          <div (click)="changeColor(paint)" *ngFor="let paint of inappropriateTypeColors" class="circle"
+          [ngStyle]="{'background': paint}"></div>
+      </div>
+    </div>
+  </div>
+</div>

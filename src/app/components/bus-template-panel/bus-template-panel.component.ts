@@ -30,36 +30,69 @@ export class BusTemplatePanelComponent implements OnInit {
   private commandA = [];
   private commandB = [];
   private commandC = [];
+  private commandTextA = [];
+  private commandTextB = [];
+  private commandTextC = [];
+
+  private cmdStyle = null;
 
   private curArrayCommandRect = [0, 0, 0, 0];
+  private canvas = null;
+  private zoom = null;
 
   ngOnInit() {
-    this.mainStage = new createjs.Stage('divCanvasContainerฺBusTemplate');
-    this.mainStage.addEventListener('click', (evt) => this.userDraw(evt));
+    this.canvas = document.getElementById("divCanvasContainerฺBusTemplate");
     this.initBusAdsFrame();
-
-    //draw frame
-    this.countClick = 0;
-
-
-    this.drawFrame = new createjs.Container();
-    this.mainStage.addChild(this.drawFrame);
-
-    // this.shapeDraw = new createjs.Shape();
-    // this.shapeDraw.graphics.beginStroke('red');
-    // this.drawFrame.addChild(this.shapeDraw);
   }
 
   private handleTick(event) {
     this.mainStage.update();
   }
 
+  MouseWheelHandler(e) {
+    if (Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) > 0)
+      this.zoom = 1.1;
+    else
+      this.zoom = 1 / 1.1;
+    var local = this.mainStage.globalToLocal(this.mainStage.mouseX, this.mainStage.mouseY);
+    this.mainStage.regX = local.x;
+    this.mainStage.regY = local.y;
+    this.mainStage.x = this.mainStage.mouseX;
+    this.mainStage.y = this.mainStage.mouseY;
+    this.mainStage.scaleX = this.mainStage.scaleY *= this.zoom;
+    this.mainStage.update();
+  }
+
   private initBusAdsFrame() {
+    //this.canvas.width = window.innerWidth;
+    //this.canvas.height = window.innerHeight;   
+
+
+    this.mainStage = new createjs.Stage('divCanvasContainerฺBusTemplate');
+    this.mainStage.addEventListener('click', (evt) => this.userDraw(evt));
     createjs.Ticker.addEventListener('tick', (evt) => this.handleTick(evt));
+
+    console.log("this.canvas = ", this.canvas);
+    console.log("this.mainStage = ", this.mainStage);
+
+    this.canvas.addEventListener("mousewheel", (e) => this.MouseWheelHandler(e), false);
+    this.canvas.addEventListener("DOMMouseScroll", (e) => this.MouseWheelHandler(e), false);
+
+    this.mainStage.addEventListener("stagemousedown", (e) => {
+      var offset = { x: this.mainStage.x - e.stageX, y: this.mainStage.y - e.stageY };
+      this.mainStage.addEventListener("stagemousemove", (ev) => {
+        this.mainStage.x = ev.stageX + offset.x;
+        this.mainStage.y = ev.stageY + offset.y;
+        this.mainStage.update();
+      });
+      this.mainStage.addEventListener("stagemouseup", (e) => {
+        this.mainStage.removeAllEventListeners("stagemousemove");
+      });
+    });
 
     let gapX = 120;
     let gapY = 20;
-    const listMainFrame = this.templateService.getAllMainFrameList();
+    //const listMainFrame = this.templateService.getAllMainFrameList();
 
     this.templateService.getAllMainFrameList().subscribe(listMainFrame => {
       listMainFrame.forEach(mainFrame => {
@@ -68,44 +101,68 @@ export class BusTemplatePanelComponent implements OnInit {
         const offset: XY = new XY();
         offset.x = gapX;
         offset.y = gapY;
-  
+
         let sampleTemplate1: BusTemplateModel = {
           id: 1,
           name: 'templateTemp',
           MainFrame: mainFrame,
           AFrameCommand: [],
           BFrameCommand: [],
-          CFrameCommand: []
+          CFrameCommand: [],
+          TextAFrameCommand: [],
+          TextBFrameCommand: [],
+          TextCFrameCommand: [],
         };
-  
+
         this.mainStage.addChild(this.containerFrame);
         this.drawService.drawTemplate(this.containerFrame, sampleTemplate1, DrawMode.modeFrameOnly, offset);
-  
+
         gapY = gapY + 250;
+
+        this.countClick = 0;
+        this.drawFrame = new createjs.Container();
+        this.mainStage.addChild(this.drawFrame);
       });
     });
 
   }
 
   private onCLickAdd(type) {
-    console.log("type = ", type);
+    console.log("onCLickAdd type = ", type);
+    console.log("onCLickAdd this.mainStage = ", this.mainStage);
     this.shapeDraw = new createjs.Shape();
 
     switch (type) {
       case 'A':
-        this.shapeDraw.graphics.beginStroke('red');
+        this.shapeDraw.graphics.beginStroke('red').setStrokeStyle(1).command;
         this.countClick = 0;
         break;
       case 'B':
-        this.shapeDraw.graphics.beginStroke('green');
+        this.shapeDraw.graphics.beginStroke('green').setStrokeStyle(1);
         this.countClick = 0;
         break;
       case 'C':
-        this.shapeDraw.graphics.beginStroke('blue');
+        this.shapeDraw.graphics.beginStroke('blue').setStrokeStyle(1);
         this.countClick = 0;
         break;
-      case 1:
+      case 'TEXT_A':
+        this.shapeDraw.graphics.beginStroke('red').setStrokeStyle(4, "round", "bevel", "round")
+          .setStrokeDash([5, 5, 10, 10]);
+        this.countClick = 0;
+        break;
+      case 'TEXT_B':
+        this.shapeDraw.graphics.beginStroke('green').setStrokeStyle(4, "round", "bevel", "round")
+          .setStrokeDash([5, 5, 10, 10]);
+        this.countClick = 0;
+        break;
+      case 'TEXT_C':
+        this.shapeDraw.graphics.beginStroke('blue').setStrokeStyle(4, "round", "bevel", "round")
+          .setStrokeDash([5, 5, 10, 10]);
+        this.countClick = 0;
+        break;
     }
+
+
 
     this.addMode = type;
     this.curCommand = "";
@@ -119,7 +176,7 @@ export class BusTemplatePanelComponent implements OnInit {
 
   private addCommand(addMode) {
     let stringCommand = "RECT*" + this.curArrayCommandRect[0] + "*" + this.curArrayCommandRect[1] + "*" + this.curArrayCommandRect[2] + "*" + this.curArrayCommandRect[3];
-    
+
     if (addMode == 'A') {
       if (this.checkOverSize(addMode)) {
         this.drawFrame.removeChild(this.shapeDraw);
@@ -147,29 +204,38 @@ export class BusTemplatePanelComponent implements OnInit {
         this.commandC.push(stringCommand);
       }
     }
+    else if (addMode == 'TEXT_A') {
+      this.commandTextA.push(stringCommand);
+    }
+    else if (addMode == 'TEXT_B') {
+      this.commandTextB.push(stringCommand);
+    }
+    else if (addMode == 'TEXT_C') {
+      this.commandTextC.push(stringCommand);
+    }
   }
 
   private checkOverSize(addMode): boolean {
-    let isOverSize:boolean = false;
+    let isOverSize: boolean = false;
     let currentSize = this.curArrayCommandRect[2] * this.curArrayCommandRect[3];
-    if(addMode == "A"){
+    if (addMode == "A") {
 
     }
-    else if(addMode == "B"){
+    else if (addMode == "B") {
       this.commandA.forEach(command => {
         let arrCommand = command.split("*");
         let area = arrCommand[3] * arrCommand[4];
-        if(currentSize > area){
+        if (currentSize > area) {
           isOverSize = true;
           return;
         }
       });
     }
-    else if(addMode == "C"){
+    else if (addMode == "C") {
       this.commandA.forEach(command => {
         let arrCommand = command.split("*");
         let area = arrCommand[3] * arrCommand[4];
-        if(currentSize > area){
+        if (currentSize > area) {
           isOverSize = true;
           return;
         }
@@ -178,7 +244,7 @@ export class BusTemplatePanelComponent implements OnInit {
       this.commandB.forEach(command => {
         let arrCommand = command.split("*");
         let area = arrCommand[3] * arrCommand[4];
-        if(currentSize > area){
+        if (currentSize > area) {
           isOverSize = true;
           return;
         }
@@ -189,26 +255,25 @@ export class BusTemplatePanelComponent implements OnInit {
   }
 
   private onCLickSave() {
-    console.log("this.commandA = ", this.commandA);
-    console.log("this.commandB = ", this.commandB);
-    console.log("this.commandC = ", this.commandC);
     let commandA = this.commandA.length > 0 ? this.commandA : "";
     let commandB = this.commandB.length > 0 ? this.commandB : "";
     let commandC = this.commandC.length > 0 ? this.commandC : "";
 
+    let commandTextA = this.commandTextA.length > 0 ? this.commandTextA : "";
+    let commandTextB = this.commandTextB.length > 0 ? this.commandTextB : "";
+    let commandTextC = this.commandTextC.length > 0 ? this.commandTextC : "";
+
     //let saveCommand = "MF=1&NAME=AAAA" + "&A=" + this.commandA + "&B=" + this.commandB + "&C=" + this.commandC;
-    let saveCommand = "MF=1&NAME=AAAA" + "&A=" + commandA + "&B=" + commandB + "&C=" + commandC;
-    
-    console.log("##### saveCommand = ", saveCommand);
+    let saveCommand = "MF=1&NAME=_" + "&A=" + commandA + "&B=" + commandB + "&C=" + commandC + "&TEXT_A=" + commandTextA + "&TEXT_B=" + commandTextB + "&TEXT_C=" + commandTextC;
+
+    this.appService.showLoading();
     this.dbconnector.reqDB("BUS_TEMPLATE_I", saveCommand).subscribe(response => {
-      console.log("response = ", response);
-      alert("Save Template Complete!!");
+      this.appService.hideLoading();
+      alert("บันทึกแม่แบบเรียบร้อย");
     });
   }
 
   private userDraw(evt) {
-    console.log("userDraw  evt= ", evt);
-    console.log("userDraw  this.countClick= ", this.countClick);
     let x = null;
     let y = null;
     let width = null;
@@ -216,7 +281,7 @@ export class BusTemplatePanelComponent implements OnInit {
 
     if (this.addMode == null) {
       // S E L E C T
-      
+
     }
     else {
       // D R A W
@@ -259,6 +324,8 @@ export class BusTemplatePanelComponent implements OnInit {
         default:
           console.log('Draw End');
           this.countClick = 99;
+
+
       }
     }
   }

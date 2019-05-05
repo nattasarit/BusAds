@@ -4,9 +4,22 @@
     <div class="main-panel-content">
         <div class="divMainCanvasScroll">
             <mat-card>
-                <canvas id="divCanvasContainer" width="1030" height="900"></canvas>
+                <canvas id="divCanvasContainer" width="1030" height="1800"></canvas>
             </mat-card>
         </div>
+    </div>
+    <div style="display: inline-block;">
+        <button style="margin-left: 20px; margin-bottom: 10px;" mat-button
+            class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"
+            (click)="refresh()">refresh</button>
+        <br>
+        <button style="margin-left: 20px; margin-bottom: 10px;" mat-button
+            class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"
+            (click)="openColorPickerDialog()">ระบุสีพื้นหลัง</button>
+        <br>
+        <button style="margin-left: 20px;" mat-button
+            class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"
+            (click)="saveColor()">บันทึกสีพื้นหลัง</button>
     </div>
 </div>
 

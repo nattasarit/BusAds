@@ -1,38 +1,50 @@
 <div class="main-panel-container">
   <div class="main-panel-menu">
-    <div class="upload-container">
+
+  </div>
+
+  <div class="upload-container">
+    <div class="upload-section">
       <div class="title-panel-menu">Upload Image</div>
-      <div class="desc-panel-menu">สามารถ Browse รูปภาพเพื่อ...</div>
+      <div class="desc-panel-menu">เลือกรูปภาพผลิตภัณฑ์ที่ต้องการ</div>
       <label class="custom-file-upload mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Browse
-        <input type="file" multiple value="upload" placeholder="Upload" accept="image/png, image/jpeg" (change)=browseImage($event)>
+        <input type="file" multiple value="upload" placeholder="Upload" accept="image/png, image/jpeg"
+          (change)=browseImage($event)>
       </label>
-      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="clearImage()">Clear</button>
-      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="uploadImage()">Upload</button>
-
       <br>
-
+      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"
+        (click)="clearImage()">Clear</button>
+      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left:5px;"
+        (click)="uploadImage()">Save</button>
+    </div>
+    <div class="upload-section" style="margin-top: 160px;">
       <div class="title-panel-menu">Upload Text</div>
-      <div class="desc-panel-menu">สามารถ Browse รูปภาพเพื่อ...</div>
+      <div class="desc-panel-menu">เลือกรูปภาพของข้อความผลิตภัณฑ์ที่ต้องการ</div>
       <label class="custom-file-upload mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect">Browse
-        <input type="file" multiple value="upload" placeholder="Upload" accept="image/png, image/jpeg" (change)=browseText($event)>
+        <input type="file" multiple value="upload" placeholder="Upload" accept="image/png, image/jpeg"
+          (change)=browseText($event)>
       </label>
-      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="clearText()">Clear</button>
-      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" (click)="uploadText()">Upload</button>
+      <br>
+      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" 
+        (click)="clearText()">Clear</button>
+      <button mat-button class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect" style="margin-left:5px;"
+        (click)="uploadText()">Save</button>
     </div>
   </div>
+
   <div class="main-panel-content">
     <div class="display-image-container">
-      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="15px">
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
         <app-image-with-priority class="card-image-priority" *ngFor="let item of items;" [image]="item">
         </app-image-with-priority>
       </div>
     </div>
 
     <div class="display-image-container">
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="15px">
-          <app-image-with-priority class="card-image-priority" *ngFor="let itemText of itemsText;" [image]="itemText">
-          </app-image-with-priority>
-        </div>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <app-image-with-priority class="card-image-priority" *ngFor="let itemText of itemsText;" [image]="itemText">
+        </app-image-with-priority>
+      </div>
     </div>
   </div>
 </div>

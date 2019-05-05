@@ -73,7 +73,10 @@ export class UploadPanelComponent implements OnInit {
       }
     }
 
+    this.appService.showLoading();
     this.appService.uploadImage(formData).subscribe(response => {
+      this.appService.hideLoading();
+      alert("บันทึกรูปภาพเรียบร้อย");
       console.log("saveUpload response=", response);
     });
   }
@@ -123,7 +126,9 @@ export class UploadPanelComponent implements OnInit {
       }
     }
 
+    this.appService.showLoading();
     this.appService.uploadText(formData).subscribe(response => {
+      this.appService.hideLoading();
       console.log("saveUpload response=", response);
     });
   }
